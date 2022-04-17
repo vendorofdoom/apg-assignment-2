@@ -30,21 +30,18 @@ public class Movement : MonoBehaviour
         if (distToTarget <= stoppingDist)
         {
             heading *= Mathf.Lerp(0, maxSpeed, Mathf.InverseLerp(0, stoppingDist, distToTarget));
-
-            Debug.Log(Mathf.Lerp(0, maxSpeed, Mathf.InverseLerp(0, stoppingDist, distToTarget)));
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, 
+                Quaternion.LookRotation((target.position - transform.position), Vector3.up), 
+                Mathf.Lerp(0, maxTurningDelta, Mathf.InverseLerp(0, stoppingDist, distToTarget)));
         }
         else
         {
             heading *= maxSpeed;
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation((target.position - transform.position), Vector3.up), maxTurningDelta);
         }
 
         Vector3 steer = Vector3.ClampMagnitude((heading - rb.velocity), maxForce);
         rb.AddForce(steer);
     }
 
-    private void Update()
-    {
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation((target.position - transform.position), Vector3.up), maxTurningDelta);
-        //transform.LookAt(target, Vector3.up);
-    }
 }
