@@ -11,6 +11,7 @@ public class Movement : MonoBehaviour
     public float maxSpeed;
     public float maxForce;
     public float stoppingDist;
+    public float maxTurningDelta;
 
     public Rigidbody rb;
     public Transform target;
@@ -43,6 +44,7 @@ public class Movement : MonoBehaviour
 
     private void Update()
     {
-        transform.LookAt(target, Vector3.up);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation((target.position - transform.position), Vector3.up), maxTurningDelta);
+        //transform.LookAt(target, Vector3.up);
     }
 }
