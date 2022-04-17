@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class UndirectedGraph
 {
@@ -41,11 +42,170 @@ public class UndirectedGraph
 
     }
 
-    public void PrintInfo()
+    public void DrawPath(Vector3 from, Vector3 to)
     {
-        foreach(Vector3 node in Nodes)
+        from = NearestNode(from);
+        to = NearestNode(to);
+
+        Debug.Log(from);
+        Debug.Log(to);
+
+        Debug.DrawLine(from, to, Color.green, 100f);
+
+        List<Vector3> path = ComputePath(from, to, 100);
+
+        for (int i = 0; i < path.Count - 1; i++)
         {
-            Debug.Log(node);
+            Debug.DrawLine(path[i], path[i+1], Color.red, 100f);
         }
+
     }
+
+    public Vector3 NearestNode(Vector3 point)
+    {
+        float minDist = Mathf.Infinity;
+        Vector3 nearestNode = Vector3.zero;
+
+        foreach (Vector3 node in Nodes)
+        {
+            float dist = Vector3.Distance(node, point);
+            if (dist < minDist)
+            {
+                minDist = dist;
+                nearestNode = node;
+            }
+        }
+
+        return nearestNode;
+    }
+
+
+    private float DefaultGet(Dictionary<Vector3, float> dict, Vector3 key, float defaultValue)
+    {
+        if (dict.ContainsKey(key))
+        {
+            return dict[key];
+        }
+        else
+        {
+            return defaultValue;
+        }
+
+    }
+
+    private Vector3 GetMinNodeInFringe(Dictionary<Vector3, float> f, List<Vector3> fringe)
+    {
+        float min = Mathf.Infinity;
+        Vector3 minNode = Vector3.zero;
+
+        foreach (Vector3 node in fringe)
+        {
+            if (f.ContainsKey(node))
+            {
+                if (f[node] < min)
+                {
+                    min = f[node];
+                    minNode = node;
+                }
+            }
+        }
+
+        return minNode;
+    }
+
+    private List<Vector3> NotClosedNeighbours(Vector3 node, List<Vector3> closed)
+    {
+        List<Vector3> neighbours = new List<Vector3>();
+        if (AdjList.ContainsKey(node))
+        {
+            foreach (Vector3 neighbour in AdjList[node])
+            {
+                if (!closed.Contains(neighbour))
+                {
+                    neighbours.Add(neighbour);
+                }
+            }
+
+        }
+        return neighbours;
+    }
+
+
+    private List<Vector3> RetrievePath(Dictionary<Vector3, Vector3> predecessor, Vector3 from, Vector3 to)
+    {
+        Vector3 target = to;
+        List<Vector3> path = new List<Vector3>();
+        path.Add(to);
+        bool predecessorExists = predecessor.ContainsKey(target);
+
+        while (predecessorExists)
+        {
+            path.Add(predecessor[target]);
+            target = predecessor[target];
+            predecessorExists = predecessor.ContainsKey(target);
+        }
+
+        path.Add(from);
+        path.Reverse();
+
+        return path;
+    }
+
+    // Based off the A* algorithm
+    private List<Vector3> ComputePath(Vector3 from, Vector3 to, int maxIters)
+    {
+
+        List<Vector3> path = new List<Vector3>();
+
+        List<Vector3> closed = new List<Vector3>();
+        List<Vector3> fringe = new List<Vector3>();
+        fringe.Add(from);
+
+        Dictionary<Vector3, float> g = new Dictionary<Vector3, float>();
+        Dictionary<Vector3, float> f = new Dictionary<Vector3, float>();
+        Dictionary<Vector3, Vector3> predecessor = new Dictionary<Vector3, Vector3>();
+
+        g[from] = 0;
+        f[from] = DefaultGet(g, from, Mathf.Infinity) + Vector3.Distance(from, to);
+
+        int numIter = 0;
+
+        // TODO: Add a max iterations parameter?
+        while (fringe.Count > 0 && numIter < maxIters)
+        {
+            Vector3 node = GetMinNodeInFringe(f, fringe);
+
+            if (node == to)
+                break;
+
+            closed.Add(node);
+            fringe.Remove(node);
+
+            foreach (Vector3 neighbour in NotClosedNeighbours(node, closed))
+            {
+                float gPrime = DefaultGet(g, node, Mathf.Infinity); // TODO: Do we need to add an edge weight here? currently all edges are equal
+
+                if (!fringe.Contains(neighbour) || (DefaultGet(g, neighbour, Mathf.Infinity) > gPrime))
+                {
+                    g[neighbour] = gPrime;
+                    f[neighbour] = gPrime + Vector3.Distance(neighbour, to);
+                    predecessor[neighbour] = node;
+                    if (!fringe.Contains(neighbour))
+                    {
+                        fringe.Add(neighbour);
+                    }
+
+                }
+            }
+
+            numIter++;
+
+        }
+
+        path = RetrievePath(predecessor, from, to);
+        return path;
+
+        // TODO: Replace first and last with actual point rather than grid mid point
+    }
+
 }

@@ -13,16 +13,20 @@ public class Tank : MonoBehaviour
     public UndirectedGraph Graph;
 
     public Collider[] Obstacles;
+    public Transform from;
+    public Transform to;
 
     void Start()
     {
-        Origin = new Vector3(0, 0, 0);
-        Graph = new UndirectedGraph();
         Initialise();
+
+        Graph.DrawPath(from.position, to.position);
     }
 
     public void Initialise()
     {
+        Origin = new Vector3(0, 0, 0);
+        Graph = new UndirectedGraph();
         float boxMidOffset = BoxSize / 2;
 
         for (int x = 0; x < NumBoxesX; x++)
@@ -55,7 +59,6 @@ public class Tank : MonoBehaviour
             }
         }
 
-        Graph.PrintInfo();
     }
 
 
