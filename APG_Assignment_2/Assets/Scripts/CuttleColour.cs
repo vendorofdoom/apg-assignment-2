@@ -7,7 +7,6 @@ public class CuttleColour : MonoBehaviour
 
     public Color BaseColour1;
     public Color BaseColour2;
-    public Color EyeColour;
 
     [Range(0f, 1f)]
     public float CamoLevel;
@@ -25,7 +24,7 @@ public class CuttleColour : MonoBehaviour
     {
         Shader.SetGlobalColor("_CuttleBase1", BaseColour1);
         Shader.SetGlobalColor("_CuttleBase2", BaseColour2);
-        Shader.SetGlobalColor("_CuttleEyeColour", EyeColour);
+        Shader.SetGlobalColor("_CuttleEyeColour", BaseColour2);
         Shader.SetGlobalFloat("_CuttleCamoLevel", CamoLevel);
         Shader.SetGlobalFloat("_CuttlePattern", PatternSlider);
 
