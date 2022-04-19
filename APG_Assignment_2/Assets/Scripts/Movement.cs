@@ -16,6 +16,8 @@ public class Movement : MonoBehaviour
     public Rigidbody rb;
     public Transform target;
 
+    public Vector3 steer;
+
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -40,7 +42,7 @@ public class Movement : MonoBehaviour
             transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation((target.position - transform.position), Vector3.up), maxTurningDelta);
         }
 
-        Vector3 steer = Vector3.ClampMagnitude((heading - rb.velocity), maxForce);
+        steer = Vector3.ClampMagnitude((heading - rb.velocity), maxForce);
         rb.AddForce(steer);
     }
 

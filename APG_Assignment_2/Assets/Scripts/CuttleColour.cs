@@ -9,7 +9,10 @@ public class CuttleColour : MonoBehaviour
     public Color BaseColour2;
     public Color EyeColour;
 
-    public RenderTexture CamoCamTexture;  // TODO: Should we try to do this in shader? Can we have finer control over the transition in the shader? 
+    [Range(0f, 1f)]
+    public float CamoLevel;
+    [Range(0f, 1f)]
+    public float PatternSlider;
 
     // Start is called before the first frame update
     void Start()
@@ -20,10 +23,11 @@ public class CuttleColour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-
         Shader.SetGlobalColor("_CuttleBase1", BaseColour1);
         Shader.SetGlobalColor("_CuttleBase2", BaseColour2);
+        Shader.SetGlobalColor("_CuttleEyeColour", EyeColour);
+        Shader.SetGlobalFloat("_CuttleCamoLevel", CamoLevel);
+        Shader.SetGlobalFloat("_CuttlePattern", PatternSlider);
 
     }
 }

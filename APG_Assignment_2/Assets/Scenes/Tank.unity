@@ -559,7 +559,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 91a8e06cae3326040bf033cc98f4c0b6, type: 2}
+  - {fileID: 2100000, guid: ee618dcaee19d4447b76f3986a702656, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -798,7 +798,6 @@ GameObject:
   m_Component:
   - component: {fileID: 870956617}
   - component: {fileID: 870956620}
-  - component: {fileID: 870956619}
   - component: {fileID: 870956618}
   m_Layer: 0
   m_Name: CamoCam
@@ -854,14 +853,6 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
---- !u!81 &870956619
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 870956616}
-  m_Enabled: 1
 --- !u!20 &870956620
 Camera:
   m_ObjectHideFlags: 0
@@ -1385,11 +1376,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1764228486}
-  - component: {fileID: 1764228485}
-  - component: {fileID: 1764228484}
-  - component: {fileID: 1764228483}
   - component: {fileID: 1764228487}
   - component: {fileID: 1764228482}
+  - component: {fileID: 1764228485}
+  - component: {fileID: 1764228488}
+  - component: {fileID: 1764228484}
+  - component: {fileID: 1764228483}
   m_Layer: 0
   m_Name: Cuttlefish
   m_TagString: Untagged
@@ -1411,8 +1403,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BaseColour1: {r: 0.46226418, g: 0.23331259, b: 0.23331259, a: 0}
   BaseColour2: {r: 1, g: 0.45921344, b: 0, a: 0}
-  EyeColour: {r: 0, g: 0, b: 0, a: 0}
-  CamoCamTexture: {fileID: 0}
+  EyeColour: {r: 1, g: 0.45882356, b: 0, a: 0}
+  CamoLevel: 0
 --- !u!136 &1764228483
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1461,6 +1453,7 @@ MonoBehaviour:
   maxTurningDelta: 0.75
   rb: {fileID: 1764228484}
   target: {fileID: 190838769}
+  steer: {x: 0, y: 0, z: 0}
 --- !u!4 &1764228486
 Transform:
   m_ObjectHideFlags: 0
@@ -1469,7 +1462,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1764228481}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.873, y: 8.31, z: 6.57}
+  m_LocalPosition: {x: 11.42, y: 8.31, z: 6.43}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 870956617}
@@ -1490,6 +1483,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d1a273705381c9468093d50ec922e97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1764228488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1764228481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4befe84354ef474d83a31d1d6d2cd85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Movement: {fileID: 1764228485}
+  MinRippleFreq: 1.5
+  MaxRippleFreq: 3
 --- !u!1 &1830090905
 GameObject:
   m_ObjectHideFlags: 0
@@ -1749,7 +1757,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3cb0874fd91064540beb4e2ff0ceb2c7, type: 2}
+  - {fileID: 2100000, guid: 0cf2d7e703638594097bde09592dc739, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3531,7 +3539,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3cb0874fd91064540beb4e2ff0ceb2c7, type: 2}
+  - {fileID: 2100000, guid: 0cf2d7e703638594097bde09592dc739, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
