@@ -24,7 +24,7 @@ public class CuttleColour : MonoBehaviour
     {
         Shader.SetGlobalColor("_CuttleBase1", BaseColour1);
         Shader.SetGlobalColor("_CuttleBase2", BaseColour2);
-        Shader.SetGlobalColor("_CuttleEyeColour", BaseColour2);
+        Shader.SetGlobalColor("_CuttleEyeColour", BaseColour1);
         Shader.SetGlobalFloat("_CuttleCamoLevel", CamoLevel);
         Shader.SetGlobalFloat("_CuttlePattern", PatternSlider);
 

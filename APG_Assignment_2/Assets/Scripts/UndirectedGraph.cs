@@ -42,7 +42,7 @@ public class UndirectedGraph
 
     }
 
-    public void DrawPath(Vector3 from, Vector3 to)
+    public List<Vector3> GetPath(Vector3 from, Vector3 to)
     {
         from = NearestNode(from);
         to = NearestNode(to);
@@ -58,6 +58,10 @@ public class UndirectedGraph
         {
             Debug.DrawLine(path[i], path[i+1], Color.red, 100f);
         }
+
+        // TODO: replace first and last with from and to
+
+        return path;
 
     }
 

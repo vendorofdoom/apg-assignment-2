@@ -19,8 +19,6 @@ public class Tank : MonoBehaviour
     void Start()
     {
         Initialise();
-
-        Graph.DrawPath(from.position, to.position);
     }
 
     public void Initialise()
@@ -61,7 +59,6 @@ public class Tank : MonoBehaviour
         }
 
     }
-
 
     void OnDrawGizmos()
     {
