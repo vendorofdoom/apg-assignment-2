@@ -236,12 +236,11 @@ public class Movement : MonoBehaviour
 
     private bool PointInsideLineSegment(Vector3 start, Vector3 end, Vector3 poi)
     {
-        return ((poi.x < Mathf.Max(start.x, end.x)) &&
-                (poi.x > Mathf.Min(start.x, end.x)) &&
-                (poi.y < Mathf.Max(start.y, end.y)) &&
-                (poi.y > Mathf.Min(start.y, end.y)) &&
-                (poi.z < Mathf.Max(start.z, end.z)) &&
-                (poi.z > Mathf.Min(start.z, end.z)));
+        float sp = (start - poi).sqrMagnitude;
+        float pe = (poi - end).sqrMagnitude;
+        float se = (start - end).sqrMagnitude;
+
+        return ((sp + pe) - se <= 0.001f);
     }
 
 
