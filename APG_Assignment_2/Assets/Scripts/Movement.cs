@@ -69,10 +69,10 @@ public class Movement : MonoBehaviour
                 CheckAtDestination(0.5f);
                 break;
             case MovementState.Avoid:
-                RotateTowards(0.1f);
+                RotateTowards(0f);
                 break;
             case MovementState.QuickEscape:
-                RotateTowards(0.1f);
+                RotateTowards(0f);
                 break;
         }
 
@@ -133,45 +133,35 @@ public class Movement : MonoBehaviour
         }
 
         Vector3 predictedPos = transform.position + (rb.velocity.normalized * lookAhead);
-        Vector3 normalPoint = ClosestNormalPoint(out int pathIdx, predictedPos); 
+        Vector3 normalPoint = ClosestNormalPoint(out int pathIdx, predictedPos);
 
-        // Attempt to fix issue where cuttlefish gets stuck between points, i.e. keep it moving down the path
-        if (pathIdx < path.Count - 2 && normalPoint == path[pathIdx + 1])
-        {
-            pathIdx++;
-        }
+        // useful for debugging   
+        pathPredicted.position = predictedPos;
+        pathNormal.position = normalPoint;
 
         Vector3 pathSegStart = path[pathIdx];
         Vector3 pathSegEnd = path[pathIdx + 1];
 
+        target.position = normalPoint + ((pathSegEnd - pathSegStart).normalized * lookAhead);
+
         // If we're at the end of the path make target the segment end point rather than looking ahead
         if (pathIdx == path.Count - 2)
         {
-            target.position = pathSegEnd;
-        }
-        else
-        {
-            target.position = normalPoint + ((pathSegEnd - pathSegStart).normalized * lookAhead);
-        }
-
-        // debug   
-        //Debug.DrawLine(pathSegStart, pathSegEnd);
-        pathPredicted.position = predictedPos;
-        pathNormal.position = normalPoint;
-
-        if (pathIdx == path.Count - 2)
-        {
+            if (!PointInsideLineSegment(pathSegStart, pathSegEnd, target.position))
+            {
+                target.position = pathSegEnd;
+            }
             Arrive(target);
-
         }
         else
-        {
+        { 
             if (Vector3.Distance(normalPoint, transform.position) > pathRadius || rb.velocity.magnitude < 0.1f)
             {
                 Seek(target);
 
             }
         }
+
     }
 
     private void Hover()
