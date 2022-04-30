@@ -44,22 +44,22 @@ public class UndirectedGraph
 
     public List<Vector3> GetPath(Vector3 from, Vector3 to)
     {
-        from = NearestNode(from);
-        to = NearestNode(to);
 
         Debug.Log(from);
         Debug.Log(to);
 
         Debug.DrawLine(from, to, Color.green, 100f);
 
-        List<Vector3> path = ComputePath(from, to, 100);
+        List<Vector3> path = ComputePath(NearestNode(from), NearestNode(to), 100);
 
         for (int i = 0; i < path.Count - 1; i++)
         {
             Debug.DrawLine(path[i], path[i+1], Color.red, 100f);
         }
 
-        // TODO: replace first and last with from and to
+        // Replace the nearest grid nodes with the actual nodes
+        path[0] = from;
+        path[path.Count - 1] = to;
 
         return path;
 
@@ -174,7 +174,6 @@ public class UndirectedGraph
 
         int numIter = 0;
 
-        // TODO: Add a max iterations parameter?
         while (fringe.Count > 0 && numIter < maxIters)
         {
             Vector3 node = GetMinNodeInFringe(f, fringe);
@@ -209,7 +208,6 @@ public class UndirectedGraph
         path = RetrievePath(predecessor, from, to);
         return path;
 
-        // TODO: Replace first and last with actual point rather than grid mid point
     }
 
 }

@@ -54,7 +54,7 @@ public class Movement : MonoBehaviour
         {
             case MovementState.FollowPath:
                 RotateTowards();
-                //RotateUpright();
+                RotateUpright();
                 break;
             case MovementState.Hover:
                 RotateUpright();
@@ -91,21 +91,39 @@ public class Movement : MonoBehaviour
    
     }
 
+    private void Stop()
+    {
+        rb.velocity = Vector3.zero;
+    }
+
     private void FollowPath()
     {
         Vector3 predictedPos = transform.position + (rb.velocity.normalized * lookAhead);
-        Vector3 normalPoint = ClosestNormalPoint(out int pathIdx, predictedPos); // TODO: fix issue where cuttlefish gets stuck between two equidistanct points :( 
+        Vector3 normalPoint = ClosestNormalPoint(out int pathIdx, predictedPos); 
+
+        // Attempt to fix issue where cuttlefish gets stuck between points, i.e. keep it moving down the path
+        if (pathIdx < path.Count - 2 && normalPoint == path[pathIdx + 1])
+        {
+            pathIdx++;
+        }
 
         Vector3 pathSegStart = path[pathIdx];
         Vector3 pathSegEnd = path[pathIdx + 1];
 
-        Vector3 targetPos = normalPoint + ((pathSegEnd - pathSegStart).normalized * lookAhead);
-        target.position = targetPos;
-
+        // If we're at the end of the path make target the segment end point rather than looking ahead
+        if (pathIdx == path.Count - 2)
+        {
+            target.position = pathSegEnd;
+        }
+        else
+        {
+            target.position = normalPoint + ((pathSegEnd - pathSegStart).normalized * lookAhead);
+        }
+        
         // debug   
-        Debug.DrawLine(pathSegStart, pathSegEnd);
-        pathPredicted.position = predictedPos;
-        pathNormal.position = normalPoint;
+        //Debug.DrawLine(pathSegStart, pathSegEnd);
+        //pathPredicted.position = predictedPos;
+        //pathNormal.position = normalPoint;
 
         if (pathIdx == path.Count - 2)
         {
@@ -115,20 +133,19 @@ public class Movement : MonoBehaviour
         }
         else
         {
-            if (Vector3.Distance(normalPoint, transform.position) > pathRadius)
+            if (Vector3.Distance(normalPoint, transform.position) > pathRadius || rb.velocity.magnitude < 0.1f)
             {
                 Seek();
             }
         }
-
-        
     }
 
     private void CheckAtDestination()
     {
 
-        if ((Vector3.Distance(transform.position, target.position) < 0.1f) && (rb.velocity.magnitude < 0.01f))
+        if ((Vector3.Distance(transform.position, target.position) < 0.1f) && (rb.velocity.magnitude < 0.1f))
         {
+            Stop();
             movementState = MovementState.Hover;
         }
     }
