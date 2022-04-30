@@ -10,7 +10,9 @@ public class Tank : MonoBehaviour
     public int NumBoxesY = 10;
     public int NumBoxesZ = 1;
     public float BoxSize = 1f;
+
     public UndirectedGraph Graph;
+    public LayerMask obstacleLayerMask;
 
     public Collider[] Obstacles;
     public Transform from;
@@ -24,6 +26,7 @@ public class Tank : MonoBehaviour
     public void Initialise()
     {
         Graph = new UndirectedGraph();
+        Graph.layerMask = obstacleLayerMask;
         float boxMidOffset = BoxSize / 2;
 
         for (int x = 0; x < NumBoxesX; x++)

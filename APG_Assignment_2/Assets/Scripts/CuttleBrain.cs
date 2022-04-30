@@ -10,9 +10,11 @@ public class CuttleBrain : MonoBehaviour
 
     public Transform target;
 
+    public bool simplifyPath;
+
     private void Start()
     {
-        movement.path = tank.Graph.GetPath(transform.position, target.position);
+        movement.path = tank.Graph.GetPath(transform.position, target.position, simplifyPath);
     }
 
 }

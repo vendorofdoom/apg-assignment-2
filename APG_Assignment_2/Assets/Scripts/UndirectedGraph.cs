@@ -10,6 +10,8 @@ public class UndirectedGraph
 
     public Dictionary<Vector3, HashSet<Vector3>> AdjList;
 
+    public LayerMask layerMask;
+
     public UndirectedGraph()
     {
         Nodes = new HashSet<Vector3>();
@@ -42,7 +44,7 @@ public class UndirectedGraph
 
     }
 
-    public List<Vector3> GetPath(Vector3 from, Vector3 to)
+    public List<Vector3> GetPath(Vector3 from, Vector3 to, bool simplify)
     {
 
         Debug.Log(from);
@@ -52,14 +54,25 @@ public class UndirectedGraph
 
         List<Vector3> path = ComputePath(NearestNode(from), NearestNode(to), 100);
 
-        for (int i = 0; i < path.Count - 1; i++)
-        {
-            Debug.DrawLine(path[i], path[i+1], Color.red, 100f);
-        }
-
         // Replace the nearest grid nodes with the actual nodes
         path[0] = from;
         path[path.Count - 1] = to;
+
+        // debug draw path
+        for (int i = 0; i < path.Count - 1; i++)
+        {
+            Debug.DrawLine(path[i], path[i + 1], Color.red, 100f);
+        }
+
+        if (simplify)
+        {
+            path = SimplifyPath(path);
+            for (int i = 0; i < path.Count - 1; i++)
+            {
+                Debug.DrawLine(path[i], path[i + 1], Color.blue, 100f);
+            }
+
+        }
 
         return path;
 
@@ -208,6 +221,26 @@ public class UndirectedGraph
         path = RetrievePath(predecessor, from, to);
         return path;
 
+    }
+
+    private List<Vector3> SimplifyPath(List<Vector3> path)
+    {
+        List<Vector3> simplifiedPath = new List<Vector3>();
+
+        simplifiedPath.Add(path[0]);
+
+        for (int i = 1; i < path.Count; i++)
+        {
+            RaycastHit hitInfo;
+            if (Physics.Raycast(simplifiedPath[simplifiedPath.Count - 1], path[i] - (simplifiedPath[simplifiedPath.Count - 1]), out hitInfo, (simplifiedPath[simplifiedPath.Count - 1] - path[i]).magnitude, layerMask))
+            {
+                simplifiedPath.Add(path[i-1]);
+            }
+        }
+
+        simplifiedPath.Add(path[path.Count - 1]);
+
+        return simplifiedPath;
     }
 
 }

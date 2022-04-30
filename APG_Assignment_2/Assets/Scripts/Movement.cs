@@ -27,6 +27,9 @@ public class Movement : MonoBehaviour
 
     public MovementState movementState;
 
+    [SerializeField]
+    private float currSpeed;
+
     public enum MovementState
     {
         FollowPath,
@@ -46,6 +49,8 @@ public class Movement : MonoBehaviour
             case MovementState.Hover:
                 break;
         }
+
+        currSpeed = rb.velocity.magnitude;
     }
 
     private void Update()
@@ -66,7 +71,7 @@ public class Movement : MonoBehaviour
     {
         Vector3 desiredVelocity = (target.position - transform.position).normalized * maxSpeed;
         Vector3 steer = Vector3.ClampMagnitude(desiredVelocity - rb.velocity, maxForce);
-        rb.AddForce(steer, ForceMode.VelocityChange);
+        rb.AddForce(steer, ForceMode.Acceleration);
     }
 
     private void Arrive()
@@ -98,6 +103,12 @@ public class Movement : MonoBehaviour
 
     private void FollowPath()
     {
+        if (path == null)
+        {
+            Debug.Log("no path to follow");
+            return;
+        }
+
         Vector3 predictedPos = transform.position + (rb.velocity.normalized * lookAhead);
         Vector3 normalPoint = ClosestNormalPoint(out int pathIdx, predictedPos); 
 
@@ -119,11 +130,11 @@ public class Movement : MonoBehaviour
         {
             target.position = normalPoint + ((pathSegEnd - pathSegStart).normalized * lookAhead);
         }
-        
+
         // debug   
         //Debug.DrawLine(pathSegStart, pathSegEnd);
-        //pathPredicted.position = predictedPos;
-        //pathNormal.position = normalPoint;
+        pathPredicted.position = predictedPos;
+        pathNormal.position = normalPoint;
 
         if (pathIdx == path.Count - 2)
         {
