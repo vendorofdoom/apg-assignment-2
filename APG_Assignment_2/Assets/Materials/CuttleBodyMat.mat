@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: CuttleMat3
+  m_Name: CuttleBodyMat
   m_Shader: {fileID: -6465566751694194690, guid: 9eb2c21ed33c37f4b867b6a70e23022a, type: 3}
   m_ShaderKeywords: ENUM_4D6829E0F7324A1BA9EF59034AC29B4A_SPOTS
   m_LightmapFlags: 4

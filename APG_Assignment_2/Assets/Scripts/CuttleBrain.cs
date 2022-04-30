@@ -36,7 +36,8 @@ public class CuttleBrain : MonoBehaviour
         Eat,
         Ink,
         InspectObject,
-        FollowCursor
+        FollowCursor,
+        Null
     }
 
 
@@ -45,8 +46,7 @@ public class CuttleBrain : MonoBehaviour
     private void Start()
     {
         currAction = Action.Rest;
-        prevAction = currAction;
-        //movement.path = tank.Graph.GetPath(transform.position, target.position, true);
+        prevAction = Action.Null;
     }
 
     private void Update()
