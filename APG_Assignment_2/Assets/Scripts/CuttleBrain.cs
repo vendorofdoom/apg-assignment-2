@@ -8,15 +8,29 @@ public class CuttleBrain : MonoBehaviour
     public Movement movement;
     public CuttleColour cuttleColour;
 
-    public Transform target;
+    public Transform homeLocation;
 
-    public float visionRadius;
+    // Collision avoidance
+    public Collider areaToAvoidCollisions;
+    public List<Collider> collidersNearby;
+
+    // World observations
+    public Collider areaOfVision;
+
+
+    [SerializeField]
+    private Action currAction;
+    private Action prevAction;
+    private bool actionChanged;
+
+    public ParticleSystem ink;
 
 
     public enum Action
     {
         GoHome,
         Rest,
+        Wander,
         Hide,
         Forage,
         Eat,
@@ -26,9 +40,84 @@ public class CuttleBrain : MonoBehaviour
     }
 
 
+    // TODO: add action selection
+
     private void Start()
     {
-        movement.path = tank.Graph.GetPath(transform.position, target.position, true);
+        currAction = Action.Rest;
+        prevAction = currAction;
+        //movement.path = tank.Graph.GetPath(transform.position, target.position, true);
     }
+
+    private void Update()
+    {
+        if (currAction != prevAction)
+        {
+            prevAction = currAction;
+            actionChanged = true;
+        }
+
+        if (actionChanged)
+        {
+            switch (currAction)
+            {
+                case (Action.GoHome):
+                    GoHome();
+                    break;
+                case (Action.Rest):
+                    Rest();
+                    break;
+                case (Action.Ink):
+                    Ink();
+                    break;
+            }
+
+            actionChanged = false;
+        }
+            
+        
+    }
+
+    private void GoHome()
+    {
+        cuttleColour.targetCamo = 0f;
+        cuttleColour.targetPattern = 0.5f;
+        movement.path = tank.Graph.GetPath(transform.position, homeLocation.position, true);
+        movement.movementState = Movement.MovementState.FollowPath;
+    }
+
+    private void Rest()
+    {
+        cuttleColour.targetCamo = 0.5f;
+        cuttleColour.targetPattern = 0.1f;
+        movement.movementState = Movement.MovementState.Hover;
+    }
+
+    private void Ink()
+    {
+        cuttleColour.targetCamo = 0f;
+        cuttleColour.targetPattern = 0f;
+        movement.target.position = transform.position + transform.forward;
+        movement.movementState = Movement.MovementState.QuickEscape;
+        StartCoroutine("ReleaseInk");
+    }
+
+    private IEnumerator ReleaseInk()
+    {
+        ink.Play();
+        yield return new WaitForSeconds(1f);
+        ink.Stop();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        collidersNearby.Add(other);
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        collidersNearby.Remove(other);
+    }
+
 
 }

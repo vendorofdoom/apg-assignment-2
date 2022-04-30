@@ -171,6 +171,7 @@ public class Movement : MonoBehaviour
             Vector3 steer = Vector3.ClampMagnitude(Vector3.zero - rb.velocity, maxForce);
             rb.AddForce(steer, ForceMode.Acceleration);
         }
+        
     }
 
     private void CheckAtDestination(float distThreshold)
