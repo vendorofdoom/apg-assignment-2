@@ -10,11 +10,25 @@ public class CuttleBrain : MonoBehaviour
 
     public Transform target;
 
-    public bool simplifyPath;
+    public float visionRadius;
+
+
+    public enum Action
+    {
+        GoHome,
+        Rest,
+        Hide,
+        Forage,
+        Eat,
+        Ink,
+        InspectObject,
+        FollowCursor
+    }
+
 
     private void Start()
     {
-        movement.path = tank.Graph.GetPath(transform.position, target.position, simplifyPath);
+        movement.path = tank.Graph.GetPath(transform.position, target.position, true);
     }
 
 }

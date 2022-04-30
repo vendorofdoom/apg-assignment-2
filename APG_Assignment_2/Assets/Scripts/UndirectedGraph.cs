@@ -47,10 +47,10 @@ public class UndirectedGraph
     public List<Vector3> GetPath(Vector3 from, Vector3 to, bool simplify)
     {
 
-        Debug.Log(from);
-        Debug.Log(to);
+        //Debug.Log(from);
+        //Debug.Log(to);
 
-        Debug.DrawLine(from, to, Color.green, 100f);
+        //Debug.DrawLine(from, to, Color.green, 100f);
 
         List<Vector3> path = ComputePath(NearestNode(from), NearestNode(to), 100);
 
@@ -58,11 +58,11 @@ public class UndirectedGraph
         path[0] = from;
         path[path.Count - 1] = to;
 
-        // debug draw path
-        for (int i = 0; i < path.Count - 1; i++)
-        {
-            Debug.DrawLine(path[i], path[i + 1], Color.red, 100f);
-        }
+        //// debug draw path
+        //for (int i = 0; i < path.Count - 1; i++)
+        //{
+        //    Debug.DrawLine(path[i], path[i + 1], Color.red, 100f);
+        //}
 
         if (simplify)
         {

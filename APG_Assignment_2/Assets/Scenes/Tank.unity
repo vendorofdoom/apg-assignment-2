@@ -399,9 +399,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 276732511}
-  m_LocalRotation: {x: -0, y: -0.29012483, z: -0, w: 0.9569888}
-  m_LocalPosition: {x: -0.52, y: -0.42, z: -22.64}
-  m_LocalScale: {x: 6.252924, y: 2.8614326, z: 1.0783882}
+  m_LocalRotation: {x: -0, y: -0.2392081, z: -0, w: 0.97096837}
+  m_LocalPosition: {x: 12.042185, y: -0.41999996, z: -16.9976}
+  m_LocalScale: {x: 6.252925, y: 2.8614326, z: 1.0783882}
   m_Children: []
   m_Father: {fileID: 2045945804}
   m_RootOrder: 4
@@ -483,7 +483,7 @@ GameObject:
   - component: {fileID: 409175717}
   - component: {fileID: 409175716}
   - component: {fileID: 409175715}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: TankGlass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1186,9 +1186,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1155969203}
-  m_LocalRotation: {x: -0, y: -0.29012483, z: -0, w: 0.9569888}
-  m_LocalPosition: {x: -1.84, y: 1.12, z: -20.82}
-  m_LocalScale: {x: 6.252924, y: 0.55454564, z: 7.7186713}
+  m_LocalRotation: {x: -0, y: -0.2392081, z: -0, w: 0.97096837}
+  m_LocalPosition: {x: 10.9214, y: 1.1199999, z: -15.048592}
+  m_LocalScale: {x: 6.252925, y: 0.55454564, z: 7.7186713}
   m_Children: []
   m_Father: {fileID: 2045945804}
   m_RootOrder: 6
@@ -1266,7 +1266,6 @@ GameObject:
   - component: {fileID: 1237586048}
   - component: {fileID: 1237586047}
   - component: {fileID: 1237586046}
-  - component: {fileID: 1237586045}
   m_Layer: 0
   m_Name: Home
   m_TagString: Untagged
@@ -1274,19 +1273,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!65 &1237586045
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1237586044}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1237586046
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1294,7 +1280,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1237586044}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1344,7 +1330,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1237586044}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.175, y: 0.63, z: -18.477}
+  m_LocalPosition: {x: 14.57, y: 0.63, z: -12.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1977,10 +1963,10 @@ MonoBehaviour:
   rb: {fileID: 1764228484}
   target: {fileID: 190838769}
   path: []
-  lookAhead: 2.5
+  lookAhead: 3
   pathPredicted: {fileID: 1651758559}
   pathNormal: {fileID: 1762954853}
-  pathRadius: 0.25
+  pathRadius: 0.1
   movementState: 0
   currSpeed: 0
 --- !u!4 &1764228486
@@ -2016,7 +2002,6 @@ MonoBehaviour:
   movement: {fileID: 1764228485}
   cuttleColour: {fileID: 1764228482}
   target: {fileID: 1237586048}
-  simplifyPath: 1
 --- !u!114 &1764228488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2187,9 +2172,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2042690792}
-  m_LocalRotation: {x: -0, y: -0.29012483, z: -0, w: 0.9569888}
-  m_LocalPosition: {x: -2.99, y: -0.41999996, z: -18.94}
-  m_LocalScale: {x: 6.252924, y: 2.8614326, z: 1.0783882}
+  m_LocalRotation: {x: -0, y: -0.2392081, z: -0, w: 0.97096837}
+  m_LocalPosition: {x: 9.975994, y: -0.41999996, z: -13.057837}
+  m_LocalScale: {x: 6.252925, y: 2.8614326, z: 1.0783882}
   m_Children: []
   m_Father: {fileID: 2045945804}
   m_RootOrder: 5

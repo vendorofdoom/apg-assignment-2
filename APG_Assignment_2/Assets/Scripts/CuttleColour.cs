@@ -5,28 +5,34 @@ using UnityEngine;
 public class CuttleColour : MonoBehaviour
 {
 
-    public Color BaseColour1;
-    public Color BaseColour2;
+    public Color baseColour1;
+    public Color baseColour2;
 
     [Range(0f, 1f)]
-    public float CamoLevel;
+    public float camoLevel;
     [Range(0f, 1f)]
-    public float PatternSlider;
+    public float patternSlider;
 
-    // Start is called before the first frame update
-    void Start()
-    {
+    [Range(0f, 1f)]
+    public float targetCamo;
+    [Range(0f, 1f)]
+    public float targetPattern;
 
-    }
+    public float colourChangeSpeed;
+
 
     // Update is called once per frame
     void Update()
     {
-        Shader.SetGlobalColor("_CuttleBase1", BaseColour1);
-        Shader.SetGlobalColor("_CuttleBase2", BaseColour2);
-        Shader.SetGlobalColor("_CuttleEyeColour", BaseColour1);
-        Shader.SetGlobalFloat("_CuttleCamoLevel", CamoLevel);
-        Shader.SetGlobalFloat("_CuttlePattern", PatternSlider);
+
+        camoLevel = Mathf.Lerp(camoLevel, targetCamo, Time.deltaTime * colourChangeSpeed);
+        patternSlider = Mathf.Lerp(patternSlider, targetPattern, Time.deltaTime * colourChangeSpeed);
+
+        Shader.SetGlobalColor("_CuttleBase1", baseColour1);
+        Shader.SetGlobalColor("_CuttleBase2", baseColour2);
+        Shader.SetGlobalColor("_CuttleEyeColour", baseColour1);
+        Shader.SetGlobalFloat("_CuttleCamoLevel", camoLevel);
+        Shader.SetGlobalFloat("_CuttlePattern", patternSlider);
 
     }
 }
