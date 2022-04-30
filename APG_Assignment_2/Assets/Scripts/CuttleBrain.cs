@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class CuttleBrain : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public Tank tank;
+    public Movement movement;
+    public CuttleColour cuttleColour;
+
+    public Transform target;
+
+    private void Start()
     {
-        
+        movement.path = tank.Graph.GetPath(transform.position, target.position);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

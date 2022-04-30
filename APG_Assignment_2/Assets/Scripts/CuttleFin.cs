@@ -9,14 +9,17 @@ public class CuttleFin : MonoBehaviour
     public float MinRippleFreq;
     public float MaxRippleFreq;
 
+    [SerializeField]
+    private float rippleFreq;
+
     
     // TODO: Decide if fin is flapping too much when changing direction
 
     void Update()
     {
-        float rippleFreq = Mathf.Lerp(MinRippleFreq, MaxRippleFreq, Mathf.InverseLerp(0, Movement.maxSpeed, Movement.rb.velocity.magnitude));
+        rippleFreq = Mathf.Lerp(MinRippleFreq, MaxRippleFreq, Mathf.InverseLerp(0, Movement.maxSpeed, Movement.rb.velocity.magnitude));
 
-        if ( Movement.steer.z < 0)
+        if ( Movement.rb.velocity.z < 0)
         {
             rippleFreq *= -1;
         }
