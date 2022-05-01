@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: CuttleBodyMat 1
+  m_Shader: {fileID: -6465566751694194690, guid: cb737b8c716e1d845a0497d952c6ce9e, type: 3}
+  m_ShaderKeywords: ENUM_4D6829E0F7324A1BA9EF59034AC29B4A_SPOTS
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - Texture2D_3c96be664b8444cbbf2595063fb63ff5:
+        m_Texture: {fileID: 8400000, guid: 4b618db1c704e5f439a0d19bb0b07da4, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_8a4459ada92241219893064c1ec2ecab:
+        m_Texture: {fileID: 8400000, guid: 4b618db1c704e5f439a0d19bb0b07da4, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_4e02d88fdd0947adbac08d0a22e4236d_Texture_1:
+        m_Texture: {fileID: 8400000, guid: 4b618db1c704e5f439a0d19bb0b07da4, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_f7885b440ab0437e92f126ea0057a219_Texture_1:
+        m_Texture: {fileID: 8400000, guid: 4b618db1c704e5f439a0d19bb0b07da4, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - Boolean_925b7b52488548b0aa958b1c6667c873: 0
+    - Boolean_dc72253010a548b4b9c32c587d50f437: 0
+    - ENUM_4D6829E0F7324A1BA9EF59034AC29B4A: 1
+    - Vector1_109e0bfc1e8b410985345026d7b28044: -3
+    - Vector1_2bca824bf88c4cfb835729cda0f727f3: 2.8
+    - Vector1_6f8a69229ba94be68e1131450c2431e7: 0
+    - Vector1_9782940be6cd4fd7be0b1de4e66afbef: 0.75
+    - Vector1_bfe031685b25475889e53cb623dacb55: 0.1
+    - Vector1_c16ad8cdbfa246939c135611ba56338d: 0.61
+    - Vector1_dd70fcdbd6ac467e8b725069a029ff7f: 30
+    - Vector1_f171ea2d3fe34612839ca47474423225: -10
+    - _CuttleCamoLevel: 0
+    m_Colors:
+    - Color_2bc34ca74b754190968ab7aa7a9228df: {r: 0.8666667, g: 0.32156855, b: 0.22352937, a: 1}
+    - Color_CuttleBase1: {r: 0.7921569, g: 0.44705886, b: 0.38431373, a: 1}
+    - Color_CuttleBase2: {r: 0.8666667, g: 0.32156855, b: 0.22352937, a: 1}
+    - Color_d6971f690ba64ce9ad0e4c466d94066f: {r: 0.7921569, g: 0.44705886, b: 0.38431373, a: 1}
+    - Vector3_a8557caecb184f4095b5ace9baf39d26: {r: 1, g: 1, b: 2.5, a: 1}
+    - Vector3_e8dbbbe1eb634844b2cb40f55871a9ea: {r: -0.5, g: 0, b: 0, a: 0}
+    - _CuttleBase1: {r: 0.7921569, g: 0.44705886, b: 0.38431373, a: 1}
+    - _CuttleBase2: {r: 0.8666667, g: 0.32156855, b: 0.22352937, a: 1}
+  m_BuildTextureStacks: []

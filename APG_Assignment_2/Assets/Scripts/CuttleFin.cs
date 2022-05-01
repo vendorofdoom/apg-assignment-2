@@ -12,6 +12,7 @@ public class CuttleFin : MonoBehaviour
     [SerializeField]
     private float rippleFreq;
 
+    public int cuttleID;
     
     // TODO: Decide if fin is flapping too much when changing direction
 
@@ -23,6 +24,6 @@ public class CuttleFin : MonoBehaviour
         {
             rippleFreq *= -1;
         }
-        Shader.SetGlobalFloat("_CuttleFinWaveFreq", rippleFreq);
+        Shader.SetGlobalFloat("_CuttleFinWaveFreq_" + cuttleID, rippleFreq);
     }
 }

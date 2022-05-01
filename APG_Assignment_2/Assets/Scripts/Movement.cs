@@ -15,6 +15,7 @@ public class Movement : MonoBehaviour
 
     public Rigidbody rb;
     public Transform target;
+    public Transform pathTarget;
 
     // path following
     public List<Vector3> path;
@@ -36,7 +37,8 @@ public class Movement : MonoBehaviour
         FollowPath,
         Hover,
         Avoid,
-        QuickEscape
+        QuickEscape,
+        Follow
     }
 
     private void FixedUpdate()
@@ -46,14 +48,17 @@ public class Movement : MonoBehaviour
             case MovementState.FollowPath:
                 FollowPath();
                 break;
-            case MovementState.Avoid:
-                Avoid(target);
-                break;
+            //case MovementState.Avoid:
+            //    Avoid(target);
+            //    break;
             case MovementState.QuickEscape:
                 QuickEscape(target);
                 break;
             case MovementState.Hover:
                 Hover();
+                break;
+            case MovementState.Follow:
+                Follow(target);
                 break;
         }
 
@@ -69,14 +74,30 @@ public class Movement : MonoBehaviour
                 CheckAtDestination(0.5f);
                 break;
             case MovementState.Avoid:
-                RotateTowards(0f);
+                //RotateTowards(0f);
                 break;
             case MovementState.QuickEscape:
+                RotateTowards(0f);
+                break;
+            case MovementState.Follow:
                 RotateTowards(0f);
                 break;
         }
 
         RotateUpright();
+    }
+
+    private void Follow(Transform followTarget)
+    {
+        Vector3 targetPos = new Vector3(followTarget.position.x + Random.Range(-0.1f, 0.1f),
+                                        followTarget.position.y + Random.Range(-0.1f, 0.1f),
+                                        followTarget.position.z - 5f);
+        
+
+
+        Vector3 desiredVelocity = (targetPos - transform.position).normalized * maxSpeed;
+        Vector3 steer = Vector3.ClampMagnitude(desiredVelocity - rb.velocity, maxForce);
+        rb.AddForce(steer, ForceMode.Acceleration);
     }
 
     private void Seek(Transform seekTarget)
@@ -86,10 +107,19 @@ public class Movement : MonoBehaviour
         rb.AddForce(steer, ForceMode.Acceleration);
     }
 
-    private void Avoid(Transform avoidTarget)
+    //private void Avoid(Transform avoidTarget)
+    //{
+    //    Debug.Log("Avoiding!");
+    //    Vector3 desiredVelocity = (transform.position - avoidTarget.position).normalized * maxSpeed;
+    //    Vector3 steer = Vector3.ClampMagnitude(desiredVelocity - rb.velocity, maxForce);
+    //    rb.AddForce(steer, ForceMode.Acceleration);
+    //}
+    
+    public void AvoidCollision(Vector3 collisionPoint)
     {
-        Vector3 desiredVelocity = (transform.position - avoidTarget.position).normalized * maxSpeed;
-        Vector3 steer = Vector3.ClampMagnitude(desiredVelocity - rb.velocity, maxForce);
+        Debug.Log("Avoiding! " + collisionPoint);
+        Vector3 desiredVelocity = (transform.position - collisionPoint).normalized * maxSpeed;
+        Vector3 steer = Vector3.ClampMagnitude(desiredVelocity - rb.velocity, maxForce * 2);
         rb.AddForce(steer, ForceMode.Acceleration);
     }
 
@@ -142,22 +172,22 @@ public class Movement : MonoBehaviour
         Vector3 pathSegStart = path[pathIdx];
         Vector3 pathSegEnd = path[pathIdx + 1];
 
-        target.position = normalPoint + ((pathSegEnd - pathSegStart).normalized * lookAhead);
+        pathTarget.position = normalPoint + ((pathSegEnd - pathSegStart).normalized * lookAhead);
 
         // If we're at the end of the path make target the segment end point rather than looking ahead
         if (pathIdx == path.Count - 2)
         {
-            if (!PointInsideLineSegment(pathSegStart, pathSegEnd, target.position))
+            if (!PointInsideLineSegment(pathSegStart, pathSegEnd, pathTarget.position))
             {
-                target.position = pathSegEnd;
+                pathTarget.position = pathSegEnd;
             }
-            Arrive(target);
+            Arrive(pathTarget);
         }
         else
         { 
             if (Vector3.Distance(normalPoint, transform.position) > pathRadius || rb.velocity.magnitude < 0.1f)
             {
-                Seek(target);
+                Seek(pathTarget);
 
             }
         }
