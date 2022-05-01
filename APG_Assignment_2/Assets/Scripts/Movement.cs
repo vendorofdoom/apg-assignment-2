@@ -183,6 +183,7 @@ public class Movement : MonoBehaviour
         {
             Debug.Log("you have reached your destination");
             movementState = MovementState.Hover;
+            path.Clear();
         }
     }
 
