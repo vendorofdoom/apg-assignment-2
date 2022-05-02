@@ -210,7 +210,7 @@ public class Movement : MonoBehaviour
         {
             if (hitColliders[i].gameObject != this.gameObject)
             {
-                Debug.Log("Avoiding! " + hitColliders[i].name);
+                //Debug.Log("Avoiding! " + hitColliders[i].name);
                 Vector3 desiredVelocity = (transform.position - hitColliders[i].ClosestPoint(transform.position)).normalized * maxSpeed;
                 Vector3 steer = Vector3.ClampMagnitude(desiredVelocity - rb.velocity, maxForce);
                 steers.Add(steer);

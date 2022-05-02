@@ -76,12 +76,16 @@ public class Perception : MonoBehaviour
 
         foreach (Collider collider in nearbyFood)
         {
-            float dist = Vector3.Distance(collider.transform.position, transform.position);
-            if (dist < minDist && dist <= distThreshold)
+            if (collider != null)
             {
-                minDist = dist;
-                nearestFood = collider.gameObject.GetComponent<Food>();
+                float dist = Vector3.Distance(collider.transform.position, transform.position);
+                if (dist < minDist && dist <= distThreshold)
+                {
+                    minDist = dist;
+                    nearestFood = collider.gameObject.GetComponent<Food>();
+                }
             }
+
         }
 
         return nearestFood;
