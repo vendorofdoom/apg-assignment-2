@@ -27,7 +27,7 @@ public class CuttleBT : MonoBehaviour
         Condition atHome = new Condition(brain.AtHome);
         Condition awayFromHome = new Condition(brain.AwayFromHome);
         Condition energyNotFull = new Condition(brain.EnergyNotFull);
-        Condition cuttleNearby = new Condition(brain.AnotherCuttleNearby);
+        Condition activeCuttleNearby = new Condition(brain.ActiveCuttleNearby);
         Condition feelingPlayful = new Condition(brain.FeelingPlayful);
         Condition closeEnoughToGroundToRest = new Condition(brain.CloseEnoughToGroundToRest);
         Condition isHungry = new Condition(brain.Hungry);
@@ -45,7 +45,7 @@ public class CuttleBT : MonoBehaviour
         Sequence foodSequence = new Sequence(foodNearby, new Selector(new Sequence(foodCloseEnoughToEat, eatFood), goToNearestFood));
         Sequence restAtHome = new Sequence(atHome, energyNotFull, rest);
         Sequence goHomeToRest = new Sequence(amTired, goHome);
-        Sequence nearbyCuttleSequence = new Sequence(awayFromHome, cuttleNearby, feelingPlayful, followNearbyCuttle);
+        Sequence nearbyCuttleSequence = new Sequence(awayFromHome, activeCuttleNearby, feelingPlayful, followNearbyCuttle);
         Sequence forage = new Sequence(isHungry, wander);
 
         Selector moveDownToRest = new Selector(new Sequence(closeEnoughToGroundToRest, rest), moveDown);

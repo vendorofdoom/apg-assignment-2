@@ -98,7 +98,7 @@ public class CuttleBrain : MonoBehaviour
 
     public bool Hungry()
     {
-        return hunger >= 0.5f;
+        return hunger >= 0.85f;
     }
 
     public bool BeenPoked()
@@ -123,12 +123,16 @@ public class CuttleBrain : MonoBehaviour
         return (mood == Mood.Playful);
     }
 
-    public bool AnotherCuttleNearby()
+    public bool ActiveCuttleNearby()
     {
         GameObject nearestCuttle = NearestCuttle(minCuttleDist);
         if (nearestCuttle != null)
         {
-            return true;
+            // leave me alone if I'm resting!
+            if (nearestCuttle.GetComponent<CuttleBrain>().action != Action.Rest)
+            {
+                return true;
+            }
         }
         return false;
     }
@@ -181,12 +185,19 @@ public class CuttleBrain : MonoBehaviour
     {
         action = Action.Rest;
 
-        energy = Mathf.Clamp01(energy + 0.1f * Time.deltaTime);
-        hunger = Mathf.Clamp01(hunger + 0.05f * Time.deltaTime);
-
         cuttleColour.targetCamo = 0.8f;
         cuttleColour.targetPattern = 0.1f;
+
         movement.Hover();
+
+        if (AtHome())
+        {
+            AdjustEnergyAndHunger(0.1f, 0.05f, false);
+        }
+        else
+        {
+            AdjustEnergyAndHunger(0.05f, 0.05f, false);
+        }
     }
 
     public void MoveDown()
@@ -197,16 +208,14 @@ public class CuttleBrain : MonoBehaviour
         cuttleColour.targetPattern = 0.1f;
 
         movement.GoDown();
+
+        AdjustEnergyAndHunger(-0.01f, 0.01f, false);
     }
 
     public void Wander()
     {
         bool prevWandering = (action == Action.Wander);
-
         action = Action.Wander; 
-
-        energy = Mathf.Clamp01(energy - 0.01f * Time.deltaTime);
-        hunger = Mathf.Clamp01(hunger + 0.01f * Time.deltaTime);
 
         if (movement.AtPathDestination(1f) || !prevWandering)
         {
@@ -216,7 +225,10 @@ public class CuttleBrain : MonoBehaviour
 
         cuttleColour.targetCamo = 0f;
         cuttleColour.targetPattern = 0.5f;
+
         movement.FollowPath();
+
+        AdjustEnergyAndHunger(-0.01f, 0.01f, false);
     }
     
     public void GoHome()
@@ -232,7 +244,10 @@ public class CuttleBrain : MonoBehaviour
         {
             cuttleColour.targetCamo = 0f;
             cuttleColour.targetPattern = 0.5f;
+
             movement.FollowPath();
+
+            AdjustEnergyAndHunger(-0.01f, 0.01f, false);
         }
     }
 
@@ -240,12 +255,13 @@ public class CuttleBrain : MonoBehaviour
     {
         action = Action.Ink;
 
-        energy = Mathf.Clamp01(energy - 0.5f); // don't use time.deltatime as it's a one off action
-        hunger = Mathf.Clamp01(hunger + 0.1f);
-
         cuttleColour.targetCamo = 0f;
         cuttleColour.targetPattern = 1f;
+
         movement.QuickEscape();
+
+        AdjustEnergyAndHunger(-0.5f, 0.1f, true);
+
         StartCoroutine(ink.ReleaseInk());
     }
 
@@ -259,7 +275,10 @@ public class CuttleBrain : MonoBehaviour
         {
             cuttleColour.targetCamo = 0f;
             cuttleColour.targetPattern = 1f;
+
             movement.Follow(nearestFood.transform, Vector3.zero);
+
+            AdjustEnergyAndHunger(-0.01f, 0.01f, false);
         }
     }
 
@@ -271,9 +290,11 @@ public class CuttleBrain : MonoBehaviour
         if (nearestFood != null)
         {
             movement.Hover();
+
             tank.availableFood.Remove(nearestFood);
             nearestFood.Consume();
-            hunger = Mathf.Clamp01(hunger - 0.5f); // don't use time.deltatime as it's a one off action
+
+            AdjustEnergyAndHunger(0, -0.5f, true);
         }
     }
 
@@ -284,11 +305,28 @@ public class CuttleBrain : MonoBehaviour
         GameObject nearestCuttle = NearestCuttle(minCuttleDist);
         if (nearestCuttle != null)
         {
-            Debug.Log("yo");
+            Debug.Log("Following!");
             cuttleColour.targetCamo = 0f;
             cuttleColour.targetPattern = 1f;
+            
             movement.Follow(nearestCuttle.transform, -nearestCuttle.transform.forward * 5f);
+
+            AdjustEnergyAndHunger(-0.1f, 0.01f, false);
         }
+    }
+
+
+
+    private void AdjustEnergyAndHunger(float energyDelta, float hungerDelta, bool oneOff)
+    {
+        if (!oneOff)
+        {
+            energyDelta *= Time.deltaTime;
+            hungerDelta *= Time.deltaTime;
+        }
+
+        energy = Mathf.Clamp01(energy + energyDelta);
+        hunger = Mathf.Clamp01(hunger + hungerDelta);
     }
 
 
