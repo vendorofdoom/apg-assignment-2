@@ -28,22 +28,23 @@ public class CuttleBrain : MonoBehaviour
     [SerializeField]
     private float hunger = 0f;
 
-
-
+    private GameObject cuttleOfInterest;
+    private Food foodOfInterest;
 
     public enum Action
     {
         GoHome,
         Rest,
         Wander,
-        Hide,
-        Forage,
-        Eat,
         Ink,
-        InspectObject,
-        FollowCursor,
-        AvoidCollison,
         FollowNearestCuttle,
+        GoToFood,
+        //Hide,
+        //Forage,
+        Eat,
+        //InspectObject,
+        //FollowCursor,
+        //AvoidCollison,
         Null
     }
 
@@ -94,6 +95,9 @@ public class CuttleBrain : MonoBehaviour
             case Action.Ink:
                 Ink();
                 break;
+            case Action.GoToFood:
+                GoToFood();
+                break;
             case Action.Eat:
                 Eat();
                 break;
@@ -103,6 +107,7 @@ public class CuttleBrain : MonoBehaviour
             case Action.Wander:
                 Wander();
                 break;
+           
         }
 
         actionChanged = false;
@@ -162,18 +167,7 @@ public class CuttleBrain : MonoBehaviour
         }
     }
 
-    private void Eat()
-    {
-        if (actionChanged)
-        {
-            cuttleColour.targetCamo = 0.5f;
-            cuttleColour.targetPattern = 0.1f;
-            //hunger = Mathf.Clamp01(hunger + 0.005f * Time.deltaTime);
-            //energy = Mathf.Clamp01(energy - 0.1f * Time.deltaTime);
-            movement.Hover();
-        }
-    }
-    
+
     private void Wander()
     {
         if (actionChanged)
@@ -197,23 +191,65 @@ public class CuttleBrain : MonoBehaviour
 
     private void FollowNearestCuttle()
     {
-
         if (actionChanged)
         {
                 cuttleColour.targetCamo = 0f;
                 cuttleColour.targetPattern = 1f;
-
+                cuttleOfInterest = perception.nearestCuttle(10f);
         }
 
-        GameObject nearestCuttle = perception.nearestCuttle(10f);
-
-        if (nearestCuttle != null)
-            movement.Follow(nearestCuttle.transform, -nearestCuttle.transform.forward * 5f);
+        // TODO: make parameter for follow behind dist / limit
+        if (cuttleOfInterest != null && Vector3.Distance(cuttleOfInterest.transform.position, transform.position) <= 5f)
+            movement.Follow(cuttleOfInterest.transform, -cuttleOfInterest.transform.forward * 5f);
         else
         {
             currAction = Action.Rest;
         }
     }
+
+    private void Eat()
+    {
+        if (actionChanged)
+        {
+            cuttleColour.targetCamo = 0.5f;
+            cuttleColour.targetPattern = 0.1f;
+            movement.Hover();
+            if (foodOfInterest != null)
+            {
+                perception.nearbyFood.Remove(foodOfInterest.gameObject.GetComponent<Collider>());
+                foodOfInterest.Consume();
+            }
+            currAction = Action.Rest;
+        }
+    }
+
+    private void GoToFood()
+    {
+
+        if (actionChanged)
+        {
+            cuttleColour.targetCamo = 0f;
+            cuttleColour.targetPattern = 1f;
+            foodOfInterest = perception.nearestFood(10f);
+
+        }
+
+        if (foodOfInterest != null)
+            if (Vector3.Distance(foodOfInterest.transform.position, transform.position) >= 2f)
+            {
+                movement.Follow(foodOfInterest.transform, Vector3.zero);
+            }
+            else
+            {
+                currAction = Action.Eat;
+            }
+                
+        else
+        {
+            currAction = Action.Rest;
+        }
+    }
+
 
 
 }

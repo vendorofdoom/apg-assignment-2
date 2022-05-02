@@ -66,6 +66,27 @@ public class Perception : MonoBehaviour
         return nearestCuttle;
     }
 
+    public Food nearestFood(float distThreshold)
+    {
+        // TODO: check if food is "owned" by another cuttle
+        // TODO: check food "age", i.e. can we reach it before it disappears
+
+        float minDist = Mathf.Infinity;
+        Food nearestFood = null;
+
+        foreach (Collider collider in nearbyFood)
+        {
+            float dist = Vector3.Distance(collider.transform.position, transform.position);
+            if (dist < minDist && dist <= distThreshold)
+            {
+                minDist = dist;
+                nearestFood = collider.gameObject.GetComponent<Food>();
+            }
+        }
+
+        return nearestFood;
+    }
+
     //public void LookWhereImGoing()
     //{
     //    //RaycastHit hitInfo;
