@@ -20,6 +20,7 @@ public class CuttleBrain : MonoBehaviour
     public float minCuttleDist;
     public float minSeeFoodDist;
     public float minEatFoodDist;
+    public LayerMask foodVisionMask; 
 
     // status
     [SerializeField]
@@ -325,13 +326,20 @@ public class CuttleBrain : MonoBehaviour
             {                
                 float dist = Vector3.Distance(food.transform.position, transform.position);
 
-                if (!Physics.Raycast(transform.position, (food.transform.position - transform.position), distThreshold, movement.collisionAvoidanceLayerMask)) // check no obstacles "blocking view"
+                RaycastHit hitInfo;
+                bool blocked = false;
+                if (Physics.Raycast(transform.position, (food.transform.position - transform.position), out hitInfo, distThreshold, foodVisionMask)) // check no obstacles "blocking view"
                 {
-                    if (dist < minDist && dist <= distThreshold)
+                    if (!hitInfo.collider.CompareTag("Food"))
                     {
-                        minDist = dist;
-                        nearestFood = food;
+                        blocked = true;
                     }
+                }
+
+                if (dist < minDist && dist <= distThreshold && !blocked)
+                {
+                    minDist = dist;
+                    nearestFood = food;
                 }
             }
         }

@@ -3928,6 +3928,9 @@ MonoBehaviour:
   minCuttleDist: 10
   minSeeFoodDist: 15
   minEatFoodDist: 2
+  foodVisionMask:
+    serializedVersion: 2
+    m_Bits: 640
   energy: 0
   hunger: 0
   mood: 0
@@ -12257,6 +12260,9 @@ MonoBehaviour:
   minCuttleDist: 10
   minSeeFoodDist: 15
   minEatFoodDist: 2
+  foodVisionMask:
+    serializedVersion: 2
+    m_Bits: 640
   energy: 1
   hunger: 0.5
   mood: 0
