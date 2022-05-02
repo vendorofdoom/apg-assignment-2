@@ -8712,8 +8712,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cuttleID: 0
-  baseColour1: {r: 0.83137256, g: 0.27843136, b: 0.5570479, a: 1}
-  baseColour2: {r: 0.9529412, g: 0.6688728, b: 0.5803922, a: 1}
+  baseColour1: {r: 0.39607847, g: 0.20392159, b: 0.32941177, a: 1}
+  baseColour2: {r: 0.61960787, g: 0.42352945, b: 0.0627451, a: 1}
   camoLevel: 0
   patternSlider: 0
   targetCamo: 0
@@ -12148,8 +12148,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cuttleID: 0
-  baseColour1: {r: 0.83137256, g: 0.34635547, b: 0.27843136, a: 1}
-  baseColour2: {r: 0.95294124, g: 0.9176471, b: 0.5803922, a: 1}
+  baseColour1: {r: 0.70980394, g: 0.16862746, b: 0.10588236, a: 1}
+  baseColour2: {r: 0.8941177, g: 0.79215693, b: 0.72156864, a: 1}
   camoLevel: 0
   patternSlider: 0
   targetCamo: 0
