@@ -13,14 +13,7 @@ public class CuttleBrain : MonoBehaviour
     public CuttleFin cuttleFin;
     public Ink ink;
     public Perception perception;
-
     public Transform homeLocation;
-
-
-    [SerializeField]
-    //private Action currAction;
-    //private Action prevAction;
-    private bool actionChanged;
 
     // status
     [SerializeField]
@@ -28,11 +21,51 @@ public class CuttleBrain : MonoBehaviour
     [SerializeField]
     private float hunger = 0f;
 
-    private GameObject cuttleOfInterest;
-    private Food foodOfInterest;
+    [SerializeField]
+    public Mood mood;
+    public Mood[] moods = new Mood[4] { Mood.Playful, Mood.Neutral, Mood.Neutral, Mood.Neutral };
 
-    private bool GoingHome;
+    private float timeToNextMoodChange;
 
+    public Action action; // attempt to debug behaviour
+
+    public enum Mood
+    {
+        Playful,
+        Neutral
+    }
+
+
+    public enum Action
+    {
+        Ink,
+        FollowCuttle,
+        Wander,
+        Rest,
+        GoHome,
+        GoToFood,
+        Eat
+    }
+
+    private void Awake()
+    {
+        cuttleColour.cuttleID = cuttleID;
+        cuttleFin.cuttleID = cuttleID;
+        mood = moods[Random.Range(0, moods.Length)];
+    }
+
+    private void Update()
+    {
+        if (timeToNextMoodChange <= 0f)
+        {
+            timeToNextMoodChange = Random.Range(0.5f, 5f);
+            mood = moods[Random.Range(0, moods.Length)];
+        }
+        {
+            timeToNextMoodChange -= Time.deltaTime;
+        }
+        
+    }
 
     // Conditions
     public bool AmTired()
@@ -67,6 +100,30 @@ public class CuttleBrain : MonoBehaviour
         return false;
     }
 
+    public bool FeelingPlayful()
+    {
+        return (mood == Mood.Playful);
+    }
+
+    public bool AnotherCuttleNearby()
+    {
+        return (perception.nearbyCuttles.Count > 0);
+    }
+
+    public bool MouseOver()
+    {
+        RaycastHit hitInfo;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (gameObject.GetComponent<Collider>().Raycast(ray, out hitInfo, 100f))
+        {
+            Debug.Log("Mouse over!");
+            return true;
+        }
+
+        return false;
+    }
+
     public bool FoodNearby()
     {
         return (perception.nearbyFood.Count > 0);
@@ -88,6 +145,8 @@ public class CuttleBrain : MonoBehaviour
     // Actions
     public void Rest()
     {
+        action = Action.Rest;
+
         energy = Mathf.Clamp01(energy + 0.1f * Time.deltaTime);
         cuttleColour.targetCamo = 0.8f;
         cuttleColour.targetPattern = 0.1f;
@@ -96,8 +155,10 @@ public class CuttleBrain : MonoBehaviour
 
     public void Wander()
     {
-        energy = Mathf.Clamp01(energy - 0.1f * Time.deltaTime);
-        hunger = Mathf.Clamp01(hunger + 0.1f * Time.deltaTime);
+        action = Action.Wander;
+
+        energy = Mathf.Clamp01(energy - 0.01f * Time.deltaTime);
+        hunger = Mathf.Clamp01(hunger + 0.01f * Time.deltaTime);
 
         if (movement.AtPathDestination(1f))
         {
@@ -112,6 +173,7 @@ public class CuttleBrain : MonoBehaviour
     
     public void GoHome()
     {
+        action = Action.GoHome;
 
         if (movement.path.Count == 0 || (movement.path[movement.path.Count - 1] != homeLocation.position))
         {
@@ -128,11 +190,13 @@ public class CuttleBrain : MonoBehaviour
 
     public void Ink()
     {
-        energy = Mathf.Clamp01(energy - 0.5f * Time.deltaTime);
-        hunger = Mathf.Clamp01(hunger + 0.1f * Time.deltaTime);
+        action = Action.Ink;
+
+        energy = Mathf.Clamp01(energy - 0.5f); // don't use time.deltatime as it's a one off action
+        hunger = Mathf.Clamp01(hunger + 0.1f);
 
         cuttleColour.targetCamo = 0f;
-        cuttleColour.targetPattern = 0f;
+        cuttleColour.targetPattern = 1f;
         movement.QuickEscape();
         StartCoroutine(ink.ReleaseInk());
     }
@@ -140,6 +204,8 @@ public class CuttleBrain : MonoBehaviour
 
     public void GoToNearestFood()
     {
+        action = Action.GoToFood;
+
         Food nearestFood = perception.nearestFood(10f);
         if (nearestFood != null)
         {
@@ -151,6 +217,8 @@ public class CuttleBrain : MonoBehaviour
 
     public void EatFood()
     {
+        action = Action.Eat;
+
         Food nearestFood = perception.nearestFood(10f);
         if (nearestFood != null)
         {
@@ -161,227 +229,17 @@ public class CuttleBrain : MonoBehaviour
         }
     }
 
-    //public enum Action
-    //{
-    //    GoHome,
-    //    Rest,
-    //    Wander,
-    //    Ink,
-    //    FollowNearestCuttle,
-    //    GoToFood,
-    //    //Hide,
-    //    //Forage,
-    //    Eat,
-    //    //InspectObject,
-    //    //FollowCursor,
-    //    //AvoidCollison,
-    //    Null
-    //}
+    public void FollowNearestCuttle()
+    {
+        action = Action.FollowCuttle;
 
-    //private void Awake()
-    //{
-    //    cuttleColour.cuttleID = cuttleID;
-    //    cuttleFin.cuttleID = cuttleID;
-    //}
-
-    //private void Start()
-    //{
-    //    currAction = Action.Rest;
-    //    prevAction = Action.Null;
-    //}
-
-    //private void Update()
-    //{
-    //    SelectAction();
-    //}
-
-    //private void FixedUpdate()
-    //{
-    //    PerformAction(); // TODO: think where to put this, applying forces so maybe fixed update?
-    //}
-
-    //private void SelectAction()
-    //{
-    //}
-
-
-    //private void PerformAction()
-    //{
-    //    if (currAction != prevAction)
-    //    {
-    //        prevAction = currAction;
-    //        actionChanged = true;
-    //    }
-
-
-    //    switch (currAction)
-    //    {
-    //        case Action.GoHome:
-    //            GoHome();
-    //            break;
-    //        case Action.Rest:
-    //            Rest();
-    //            break;
-    //        case Action.Ink:
-    //            Ink();
-    //            break;
-    //        case Action.GoToFood:
-    //            GoToFood();
-    //            break;
-    //        case Action.Eat:
-    //            Eat();
-    //            break;
-    //        case Action.FollowNearestCuttle:
-    //            FollowNearestCuttle();
-    //            break;
-    //        case Action.Wander:
-    //            Wander();
-    //            break;
-
-    //    }
-
-    //    actionChanged = false;
-    //}
-
-
-
-
-    //private void GoHome()
-    //{
-    //    if (actionChanged)
-    //    {
-    //        cuttleColour.targetCamo = 0f;
-    //        cuttleColour.targetPattern = 0.5f;
-    //        //hunger = Mathf.Clamp01(hunger + 0.01f * Time.deltaTime);
-    //        movement.path = tank.Graph.GetPath(transform.position, homeLocation.position, true);
-    //    }
-
-    //    if (movement.AtPathDestination(1f))
-    //    {
-    //        movement.Hover();
-    //        currAction = Action.Rest;
-    //    }
-    //    else
-    //    {
-    //        movement.FollowPath();
-    //    }
-
-    //}
-
-    //private void Rest()
-    //{
-    //    if (actionChanged)
-    //    {
-    //        cuttleColour.targetCamo = 0.5f;
-    //        cuttleColour.targetPattern = 0.1f;
-    //        //hunger = Mathf.Clamp01(hunger + 0.005f * Time.deltaTime);
-    //        //energy = Mathf.Clamp01(energy + 0.1f * Time.deltaTime);
-    //    }
-
-    //    movement.Hover();
-    //}
-
-    //private void Ink()
-    //{
-    //    if (actionChanged)
-    //    {
-    //        cuttleColour.targetCamo = 0f;
-    //        cuttleColour.targetPattern = 0f;
-    //        //hunger = Mathf.Clamp01(hunger + 0.005f * Time.deltaTime);
-    //        //energy = Mathf.Clamp01(energy - 0.1f * Time.deltaTime);
-    //        movement.QuickEscape();
-    //        StartCoroutine(ink.ReleaseInk());
-    //    }
-    //    else
-    //    {
-    //        // TODO: figure out how to handle inking so don't keep inking
-    //        currAction = Action.Rest;
-    //    }
-    //}
-
-
-    //private void Wander()
-    //{
-    //    if (actionChanged)
-    //    { 
-    //        cuttleColour.targetCamo = 0f;
-    //        cuttleColour.targetPattern = 0.5f;
-
-    //        //hunger = Mathf.Clamp01(hunger + 0.005f * Time.deltaTime);
-    //        //energy = Mathf.Clamp01(energy - 0.1f * Time.deltaTime);
-    //    }
-
-    //    if (movement.AtPathDestination(1f) || actionChanged)
-    //    {
-    //        Vector3 randLoc = tank.Graph.Nodes.ToList()[Random.Range(0, tank.Graph.Nodes.Count)];
-    //        movement.path = tank.Graph.GetPath(transform.position, randLoc, true);
-    //    }
-
-    //    movement.FollowPath();
-
-    //}
-
-    //private void FollowNearestCuttle()
-    //{
-    //    if (actionChanged)
-    //    {
-    //            cuttleColour.targetCamo = 0f;
-    //            cuttleColour.targetPattern = 1f;
-    //            cuttleOfInterest = perception.nearestCuttle(10f);
-    //    }
-
-    //    // TODO: make parameter for follow behind dist / limit
-    //    if (cuttleOfInterest != null && Vector3.Distance(cuttleOfInterest.transform.position, transform.position) <= 5f)
-    //        movement.Follow(cuttleOfInterest.transform, -cuttleOfInterest.transform.forward * 5f);
-    //    else
-    //    {
-    //        currAction = Action.Rest;
-    //    }
-    //}
-
-    //private void Eat()
-    //{
-    //    if (actionChanged)
-    //    {
-    //        cuttleColour.targetCamo = 0.5f;
-    //        cuttleColour.targetPattern = 0.1f;
-    //        movement.Hover();
-    //        if (foodOfInterest != null)
-    //        {
-    //            perception.nearbyFood.Remove(foodOfInterest.gameObject.GetComponent<Collider>());
-    //            foodOfInterest.Consume();
-    //        }
-    //        currAction = Action.Rest;
-    //    }
-    //}
-
-    //private void GoToFood()
-    //{
-
-    //    if (actionChanged)
-    //    {
-    //        cuttleColour.targetCamo = 0f;
-    //        cuttleColour.targetPattern = 1f;
-    //        foodOfInterest = perception.nearestFood(10f);
-
-    //    }
-
-    //    if (foodOfInterest != null)
-    //        if (Vector3.Distance(foodOfInterest.transform.position, transform.position) >= 2f)
-    //        {
-    //            movement.Follow(foodOfInterest.transform, Vector3.zero);
-    //        }
-    //        else
-    //        {
-    //            currAction = Action.Eat;
-    //        }
-
-    //    else
-    //    {
-    //        currAction = Action.Rest;
-    //    }
-    //}
-
-
+        GameObject nearestCuttle = perception.nearestCuttle(10f);
+        if (nearestCuttle != null)
+        {
+            cuttleColour.targetCamo = 0f;
+            cuttleColour.targetPattern = 1f;
+            movement.Follow(nearestCuttle.transform, -nearestCuttle.transform.forward * 5f);
+        }
+    }
 
 }
