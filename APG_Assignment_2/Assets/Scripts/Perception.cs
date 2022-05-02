@@ -16,9 +16,12 @@ public class Perception : MonoBehaviour
     public Rigidbody rb;
     public LayerMask layerMask;
 
+    public bool AtHome;
+
+
     private void Update()
     {
-        LookWhereImGoing();
+        //LookWhereImGoing();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -63,33 +66,31 @@ public class Perception : MonoBehaviour
         return nearestCuttle;
     }
 
-    public void LookWhereImGoing()
-    {
-        //RaycastHit hitInfo;
-        //Ray ray = new Ray(transform.position, rb.velocity);
-        //if (Physics.Raycast(ray, out hitInfo, collisionCheckDist))
+    //public void LookWhereImGoing()
+    //{
+    //    //RaycastHit hitInfo;
+    //    //Ray ray = new Ray(transform.position, rb.velocity);
+    //    //if (Physics.Raycast(ray, out hitInfo, collisionCheckDist))
 
-        RaycastHit hitInfo;
-        if (Physics.SphereCast(transform.position, collisionCheckRadius, rb.velocity, out hitInfo, collisionCheckDist, layerMask))
-        {
-            potentialCollision = hitInfo.collider.transform;
-            potentialCollisionPoint = hitInfo.point;
-            //Debug.Log("Potential Collsion! " + potentialCollision.position + " " + hitInfo.collider.name);
-        }
-        else
-        {
-            potentialCollision = null;
-        }
+    //    RaycastHit hitInfo;
+    //    if (Physics.SphereCast(transform.position, collisionCheckRadius, rb.velocity, out hitInfo, collisionCheckDist, layerMask))
+    //    {
+    //        potentialCollision = hitInfo.collider.transform;
+    //        potentialCollisionPoint = hitInfo.point;
+    //        //Debug.Log("Potential Collsion! " + potentialCollision.position + " " + hitInfo.collider.name);
+    //    }
+    //    else
+    //    {
+    //        potentialCollision = null;
+    //    }
+    //}
 
-
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, collisionCheckRadius);
-        Gizmos.DrawWireSphere(transform.position + (rb.velocity.normalized * collisionCheckDist), collisionCheckRadius);
-    }
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.color = Color.red;
+    //    Gizmos.DrawWireSphere(transform.position, collisionCheckRadius);
+    //    Gizmos.DrawWireSphere(transform.position + (rb.velocity.normalized * collisionCheckDist), collisionCheckRadius);
+    //}
 
 
 

@@ -14,151 +14,65 @@ public class Movement : MonoBehaviour
     public float quickEscapeSpeed;
 
     public Rigidbody rb;
-    public Transform target;
-    public Transform pathTarget;
 
     // path following
     public List<Vector3> path;
-
+    public float pathRadius;
     public float lookAhead;
 
     // debug
+    public Transform pathTarget;
     public Transform pathPredicted;
     public Transform pathNormal;
-    public float pathRadius;
-
-    public MovementState movementState;
 
     [SerializeField]
     private float currSpeed;
 
-    public enum MovementState
+    public LayerMask collisionAvoidanceLayerMask;
+    public Vector3 collisionAvoidanceBBox;
+
+    private void Update()
     {
-        FollowPath,
-        Hover,
-        Avoid,
-        QuickEscape,
-        Follow
+        RotateUpright();
     }
 
     private void FixedUpdate()
     {
-        switch (movementState)
-        {
-            case MovementState.FollowPath:
-                FollowPath();
-                break;
-            //case MovementState.Avoid:
-            //    Avoid(target);
-            //    break;
-            case MovementState.QuickEscape:
-                QuickEscape(target);
-                break;
-            case MovementState.Hover:
-                Hover();
-                break;
-            case MovementState.Follow:
-                Follow(target);
-                break;
-        }
-
-        currSpeed = rb.velocity.magnitude;
+        currSpeed = rb.velocity.magnitude; 
     }
 
-    private void Update()
+    public void Hover()
     {
-        switch (movementState)
+        if (rb.velocity.magnitude > 0.01f)
         {
-            case MovementState.FollowPath:
-                RotateTowards(1f);
-                CheckAtDestination(0.5f);
-                break;
-            case MovementState.Avoid:
-                //RotateTowards(0f);
-                break;
-            case MovementState.QuickEscape:
-                RotateTowards(0f);
-                break;
-            case MovementState.Follow:
-                RotateTowards(0f);
-                break;
+            Vector3 steer = Vector3.ClampMagnitude(Vector3.zero - rb.velocity, maxForce);
+            rb.AddForce(steer, ForceMode.Acceleration);
         }
-
-        RotateUpright();
     }
 
-    private void Follow(Transform followTarget)
+    public void QuickEscape()
     {
-        Vector3 targetPos = new Vector3(followTarget.position.x + Random.Range(-0.1f, 0.1f),
-                                        followTarget.position.y + Random.Range(-0.1f, 0.1f),
-                                        followTarget.position.z - 5f);
-        
+        Vector3 steer = -transform.forward * quickEscapeSpeed;
+        rb.AddForce(steer, ForceMode.Impulse);
+        //movementState = MovementState.Hover;
+    }
 
-
+    public void Follow(Transform target, Vector3 offset)
+    {
+        Vector3 targetPos = target.position + offset;
         Vector3 desiredVelocity = (targetPos - transform.position).normalized * maxSpeed;
         Vector3 steer = Vector3.ClampMagnitude(desiredVelocity - rb.velocity, maxForce);
         rb.AddForce(steer, ForceMode.Acceleration);
+        RotateTowards(target, 0f);
     }
 
-    private void Seek(Transform seekTarget)
+    public void FollowPath()
     {
-        Vector3 desiredVelocity = (seekTarget.position - transform.position).normalized * maxSpeed;
-        Vector3 steer = Vector3.ClampMagnitude(desiredVelocity - rb.velocity, maxForce);
-        rb.AddForce(steer, ForceMode.Acceleration);
-    }
 
-    //private void Avoid(Transform avoidTarget)
-    //{
-    //    Debug.Log("Avoiding!");
-    //    Vector3 desiredVelocity = (transform.position - avoidTarget.position).normalized * maxSpeed;
-    //    Vector3 steer = Vector3.ClampMagnitude(desiredVelocity - rb.velocity, maxForce);
-    //    rb.AddForce(steer, ForceMode.Acceleration);
-    //}
-    
-    public void AvoidCollision(Vector3 collisionPoint)
-    {
-        Debug.Log("Avoiding! " + collisionPoint);
-        Vector3 desiredVelocity = (transform.position - collisionPoint).normalized * maxSpeed;
-        Vector3 steer = Vector3.ClampMagnitude(desiredVelocity - rb.velocity, maxForce * 2);
-        rb.AddForce(steer, ForceMode.Acceleration);
-    }
-
-
-    private void QuickEscape(Transform escapeTarget)
-    {
-        Vector3 steer = (transform.position - escapeTarget.position).normalized * quickEscapeSpeed;
-        rb.AddForce(steer, ForceMode.Impulse);
-        movementState = MovementState.Hover;
-    }
-
-    private void Arrive(Transform arriveTarget)
-    {
-        Vector3 desiredVelocity = (arriveTarget.position - transform.position);
-        float distanceToTarget = desiredVelocity.magnitude;
-        desiredVelocity = desiredVelocity.normalized;
-
-        if (distanceToTarget < stoppingDist)
-        {
-            float speed = Mathf.Lerp(0, maxSpeed, Mathf.InverseLerp(0, stoppingDist, distanceToTarget));
-            
-            desiredVelocity *= speed;
-        }
-        else
-        {
-            desiredVelocity *= maxSpeed;
-        }
-
-        Vector3 steer = Vector3.ClampMagnitude(desiredVelocity - rb.velocity, maxForce);
-        rb.AddForce(steer, ForceMode.Acceleration);
-   
-    }
-
-    private void FollowPath()
-    {
         if (path.Count == 0)
         {
             Debug.Log("no path to follow");
-            movementState = MovementState.Hover;
+            //movementState = MovementState.Hover;
             return;
         }
 
@@ -174,6 +88,8 @@ public class Movement : MonoBehaviour
 
         pathTarget.position = normalPoint + ((pathSegEnd - pathSegStart).normalized * lookAhead);
 
+        List<Vector3> steer = new List<Vector3>();
+
         // If we're at the end of the path make target the segment end point rather than looking ahead
         if (pathIdx == path.Count - 2)
         {
@@ -181,39 +97,120 @@ public class Movement : MonoBehaviour
             {
                 pathTarget.position = pathSegEnd;
             }
-            Arrive(pathTarget);
+
+            steer.Add(Arrive(pathTarget));
+            RotateTowards(pathTarget, 0.5f);
+            steer.AddRange(CollisionAvoidanceSteers(10));
+            rb.AddForce(AverageSteer(steer), ForceMode.Acceleration);
+
         }
         else
-        { 
+        {
             if (Vector3.Distance(normalPoint, transform.position) > pathRadius || rb.velocity.magnitude < 0.1f)
             {
-                Seek(pathTarget);
+                steer.Add(Seek(pathTarget));
+                RotateTowards(pathTarget, 0f);
+                steer.AddRange(CollisionAvoidanceSteers(10));
+                rb.AddForce(AverageSteer(steer), ForceMode.Acceleration);
 
             }
         }
 
+        // TODO: check magnitude is correct
+
     }
 
-    private void Hover()
+    private Vector3 AverageSteer(List<Vector3> steersToCombine)
     {
-        if (rb.velocity.magnitude > 0.01f)
+        Vector3 average = Vector3.zero;
+
+        if (steersToCombine.Count > 0)
         {
-            Vector3 steer = Vector3.ClampMagnitude(Vector3.zero - rb.velocity, maxForce);
-            rb.AddForce(steer, ForceMode.Acceleration);
+            foreach (Vector3 v in steersToCombine)
+            {
+                average += v;
+            }
+            average /= steersToCombine.Count;
         }
-        
+
+        return average;
+
     }
 
-    private void CheckAtDestination(float distThreshold)
+
+
+
+    private Vector3 Seek(Transform target)
+    {
+        Vector3 desiredVelocity = (target.position - transform.position).normalized * maxSpeed;
+        Vector3 steer = Vector3.ClampMagnitude(desiredVelocity - rb.velocity, maxForce);
+        return steer;
+        //rb.AddForce(steer, ForceMode.Acceleration);
+    }
+
+    private Vector3 Arrive(Transform target)
+    {
+        Vector3 desiredVelocity = (target.position - transform.position);
+        float distanceToTarget = desiredVelocity.magnitude;
+        desiredVelocity = desiredVelocity.normalized;
+
+        if (distanceToTarget < stoppingDist)
+        {
+            float speed = Mathf.Lerp(0, maxSpeed, Mathf.InverseLerp(0, stoppingDist, distanceToTarget));
+
+            desiredVelocity *= speed;
+        }
+        else
+        {
+            desiredVelocity *= maxSpeed;
+        }
+
+        Vector3 steer = Vector3.ClampMagnitude(desiredVelocity - rb.velocity, maxForce);
+        return steer;
+        //rb.AddForce(steer, ForceMode.Acceleration);
+
+    }
+    private List<Vector3> CollisionAvoidanceSteers(int maxColliders)
+    {
+        List<Vector3> steers = new List<Vector3>();
+
+        Collider[] hitColliders = new Collider[maxColliders];
+        int numColliders = Physics.OverlapBoxNonAlloc(transform.position, collisionAvoidanceBBox, 
+                                                      hitColliders, transform.rotation, 
+                                                      collisionAvoidanceLayerMask);
+        for (int i = 0; i < numColliders; i++)
+        {
+            if (hitColliders[i].gameObject != this.gameObject)
+            {
+                Debug.Log("Avoiding! " + hitColliders[i].name);
+                Vector3 desiredVelocity = (transform.position - hitColliders[i].ClosestPoint(transform.position)).normalized * maxSpeed;
+                Vector3 steer = Vector3.ClampMagnitude(desiredVelocity - rb.velocity, maxForce);
+                steers.Add(steer);
+            }
+
+        }
+
+        return steers;
+
+        //rb.AddForce(steer, ForceMode.Acceleration);
+    }
+
+    public bool AtPathDestination(float distThreshold)
     {
         if (path.Count == 0)
-            return;
-
-        if ((Vector3.Distance(transform.position, path[path.Count-1]) < distThreshold))
+        {
+            Debug.Log("path is empty");
+            return true;
+        }
+        else if ((Vector3.Distance(transform.position, path[path.Count - 1]) < distThreshold))
         {
             Debug.Log("you have reached your destination");
-            movementState = MovementState.Hover;
             path.Clear();
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
@@ -265,8 +262,7 @@ public class Movement : MonoBehaviour
         return ((sp + pe) - se <= 0.001f);
     }
 
-
-    private void RotateTowards(float distThreshold)
+    private void RotateTowards(Transform target, float distThreshold)
     {
         Vector3 lookDir = (target.position - transform.position);
         if (lookDir.magnitude > distThreshold)
@@ -276,10 +272,10 @@ public class Movement : MonoBehaviour
         }
     }
 
-
     private void RotateUpright()
     {
         Quaternion desiredRotation = Quaternion.FromToRotation(transform.up, Vector3.up) * transform.rotation;
         transform.rotation = Quaternion.Slerp(transform.rotation, desiredRotation, rotationSpeed * Time.deltaTime);
     }
+
 }

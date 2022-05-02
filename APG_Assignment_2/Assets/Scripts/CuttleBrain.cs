@@ -28,6 +28,9 @@ public class CuttleBrain : MonoBehaviour
     [SerializeField]
     private float hunger = 0f;
 
+
+
+
     public enum Action
     {
         GoHome,
@@ -55,50 +58,20 @@ public class CuttleBrain : MonoBehaviour
         currAction = Action.Rest;
         prevAction = Action.Null;
     }
-
+ 
     private void Update()
     {
-        AvoidCollison();
         SelectAction();
-        //perception.Perceive();
-        PerformAction();
+    }
+
+    private void FixedUpdate()
+    {
+        PerformAction(); // TODO: think where to put this, applying forces so maybe fixed update?
     }
 
     private void SelectAction()
     {
     }
-
-    //private void SelectAction()
-    //{
-    //    // TODO: Create behaviour tree for action selection
-    //    if (collidersNearby.Count > 0)
-    //    {
-    //        objToAvoid = nearestCuttle().transform;
-    //        currAction = Action.AvoidNearbyObj;
-    //    }
-
-    //    else if (collidersNearby.Count == 0 && currAction == Action.AvoidNearbyObj)
-    //    {
-    //        currAction = Action.Rest;
-    //    }
-
-    //    else if (energy < 0.5f)
-    //    {
-    //        if (Vector3.Distance(transform.position, homeLocation.position) > 0.5f)
-    //        {
-    //            currAction = Action.GoHome;
-    //        }
-    //        else
-    //        {
-    //            currAction = Action.Rest;
-    //        }
-    //    }
-    //    else if (hunger > 0.5f)
-    //    {
-    //        currAction = Action.Eat;
-    //    }
-
-    //}
 
 
     private void PerformAction()
@@ -130,9 +103,6 @@ public class CuttleBrain : MonoBehaviour
             case Action.Wander:
                 Wander();
                 break;
-            case Action.AvoidCollison:
-                AvoidCollison();
-                break;
         }
 
         actionChanged = false;
@@ -147,7 +117,16 @@ public class CuttleBrain : MonoBehaviour
             cuttleColour.targetPattern = 0.5f;
             //hunger = Mathf.Clamp01(hunger + 0.01f * Time.deltaTime);
             movement.path = tank.Graph.GetPath(transform.position, homeLocation.position, true);
-            movement.movementState = Movement.MovementState.FollowPath;
+        }
+
+        if (movement.AtPathDestination(1f))
+        {
+            movement.Hover();
+            currAction = Action.Rest;
+        }
+        else
+        {
+            movement.FollowPath();
         }
 
     }
@@ -160,8 +139,9 @@ public class CuttleBrain : MonoBehaviour
             cuttleColour.targetPattern = 0.1f;
             //hunger = Mathf.Clamp01(hunger + 0.005f * Time.deltaTime);
             //energy = Mathf.Clamp01(energy + 0.1f * Time.deltaTime);
-            movement.movementState = Movement.MovementState.Hover;
         }
+
+        movement.Hover();
     }
 
     private void Ink()
@@ -172,10 +152,13 @@ public class CuttleBrain : MonoBehaviour
             cuttleColour.targetPattern = 0f;
             //hunger = Mathf.Clamp01(hunger + 0.005f * Time.deltaTime);
             //energy = Mathf.Clamp01(energy - 0.1f * Time.deltaTime);
-            movement.target = movement.pathTarget;
-            movement.target.position = transform.position + transform.forward;
-            movement.movementState = Movement.MovementState.QuickEscape;
+            movement.QuickEscape();
             StartCoroutine(ink.ReleaseInk());
+        }
+        else
+        {
+            // TODO: figure out how to handle inking so don't keep inking
+            currAction = Action.Rest;
         }
     }
 
@@ -187,8 +170,7 @@ public class CuttleBrain : MonoBehaviour
             cuttleColour.targetPattern = 0.1f;
             //hunger = Mathf.Clamp01(hunger + 0.005f * Time.deltaTime);
             //energy = Mathf.Clamp01(energy - 0.1f * Time.deltaTime);
-            movement.movementState = Movement.MovementState.Hover;
-
+            movement.Hover();
         }
     }
     
@@ -203,35 +185,35 @@ public class CuttleBrain : MonoBehaviour
             //energy = Mathf.Clamp01(energy - 0.1f * Time.deltaTime);
         }
 
-        if (movement.path.Count == 0 || actionChanged)
+        if (movement.AtPathDestination(1f) || actionChanged)
         {
             Vector3 randLoc = tank.Graph.Nodes.ToList()[Random.Range(0, tank.Graph.Nodes.Count)];
             movement.path = tank.Graph.GetPath(transform.position, randLoc, true);
-            movement.movementState = Movement.MovementState.FollowPath;
         }
+
+        movement.FollowPath();
+
     }
 
     private void FollowNearestCuttle()
     {
+
         if (actionChanged)
         {
-            GameObject nearestCuttle = perception.nearestCuttle(10f);
-            if (nearestCuttle != null)
-                movement.target = nearestCuttle.transform;
-                movement.movementState = Movement.MovementState.Follow;
+                cuttleColour.targetCamo = 0f;
+                cuttleColour.targetPattern = 1f;
+
         }
 
-    }
+        GameObject nearestCuttle = perception.nearestCuttle(10f);
 
-    private void AvoidCollison()
-    {
-        if (perception.potentialCollision != null)
+        if (nearestCuttle != null)
+            movement.Follow(nearestCuttle.transform, -nearestCuttle.transform.forward * 5f);
+        else
         {
-            movement.AvoidCollision(perception.potentialCollisionPoint);
+            currAction = Action.Rest;
         }
     }
-
-
 
 
 }

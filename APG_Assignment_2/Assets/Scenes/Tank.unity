@@ -359,8 +359,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 276732511}
   m_LocalRotation: {x: -0, y: -0.2392081, z: -0, w: 0.97096837}
-  m_LocalPosition: {x: 12.522226, y: -0.25156605, z: -17.912724}
-  m_LocalScale: {x: 6.252925, y: 2.8614326, z: 1.0783882}
+  m_LocalPosition: {x: 12.522226, y: -0.051566005, z: -17.912724}
+  m_LocalScale: {x: 6.252925, y: 4.780023, z: 1.0783882}
   m_Children: []
   m_Father: {fileID: 843003246}
   m_RootOrder: 0
@@ -376,8 +376,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 2.004106}
-  m_Center: {x: 4.839302e-10, y: 0, z: 0.071928464}
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &276732514
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1322,7 +1322,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1155969203}
   m_LocalRotation: {x: -0, y: -0.2392081, z: -0, w: 0.97096837}
-  m_LocalPosition: {x: 10.9214, y: 1.4484341, z: -15.048592}
+  m_LocalPosition: {x: 10.9214, y: 2.348434, z: -15.048592}
   m_LocalScale: {x: 7.737994, y: 0.65852296, z: 7.7186713}
   m_Children: []
   m_Father: {fileID: 843003246}
@@ -2718,15 +2718,17 @@ MonoBehaviour:
   stoppingDist: 4
   quickEscapeSpeed: 20
   rb: {fileID: 1764228484}
-  target: {fileID: 190838769}
-  pathTarget: {fileID: 190838769}
   path: []
+  pathRadius: 0.01
   lookAhead: 2.5
+  pathTarget: {fileID: 190838769}
   pathPredicted: {fileID: 1651758559}
   pathNormal: {fileID: 1762954853}
-  pathRadius: 0.01
-  movementState: 0
   currSpeed: 0
+  collisionAvoidanceLayerMask:
+    serializedVersion: 2
+    m_Bits: 128
+  collisionAvoidanceBBox: {x: 1, y: 0.5, z: 1.75}
 --- !u!4 &1764228486
 Transform:
   m_ObjectHideFlags: 0
@@ -2905,6 +2907,7 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 128
+  AtHome: 0
 --- !u!199 &1764228491
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -7793,8 +7796,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2042690792}
   m_LocalRotation: {x: -0, y: -0.2392081, z: -0, w: 0.97096837}
-  m_LocalPosition: {x: 9.479912, y: -0.25156605, z: -12.112136}
-  m_LocalScale: {x: 6.252925, y: 2.8614326, z: 1.0783882}
+  m_LocalPosition: {x: 9.479912, y: -0.051566005, z: -12.112136}
+  m_LocalScale: {x: 6.252925, y: 4.780023, z: 1.0783882}
   m_Children: []
   m_Father: {fileID: 843003246}
   m_RootOrder: 1
@@ -7810,8 +7813,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1.7255722}
-  m_Center: {x: 3.5231207e-10, y: 0, z: 0.082681455}
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &2042690795
 MeshRenderer:
   m_ObjectHideFlags: 0
