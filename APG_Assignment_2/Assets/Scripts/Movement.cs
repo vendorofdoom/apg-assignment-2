@@ -25,8 +25,7 @@ public class Movement : MonoBehaviour
     public Transform pathPredicted;
     public Transform pathNormal;
 
-    [SerializeField]
-    private float currSpeed;
+    public float currSpeed;
 
     public LayerMask collisionAvoidanceLayerMask;
     public Vector3 collisionAvoidanceBBox;

@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class CuttleFin : MonoBehaviour
 {
-    public Movement Movement;
+    public Movement movement;
 
-    public float MinRippleFreq;
-    public float MaxRippleFreq;
-    public float rippleChangeSpeed;
+    public float minRippleFreq;
+    public float maxRippleFreq;
+
+    public float changeSpeed;
 
     [SerializeField]
     private float rippleFreq;
@@ -17,9 +18,12 @@ public class CuttleFin : MonoBehaviour
     
     void Update()
     {
-        float targetRipple = Mathf.Lerp(MinRippleFreq, MaxRippleFreq, Mathf.InverseLerp(0, Movement.maxSpeed, Movement.rb.velocity.magnitude));
-        float velo = 0;
-        rippleFreq = Mathf.SmoothDamp(rippleFreq, targetRipple, ref velo, Time.deltaTime, rippleChangeSpeed);
+        float currRippleFreq = Shader.GetGlobalFloat("_CuttleFinWaveFreq_" + cuttleID);
+        rippleFreq = Mathf.Lerp(minRippleFreq, maxRippleFreq, Mathf.InverseLerp(0, movement.maxSpeed, movement.currSpeed));
+
+
+        rippleFreq = Mathf.Lerp(currRippleFreq, rippleFreq, Time.deltaTime * changeSpeed);
+
         Shader.SetGlobalFloat("_CuttleFinWaveFreq_" + cuttleID, rippleFreq);
     }
 }

@@ -67,10 +67,10 @@ public class UndirectedGraph
         if (simplify)
         {
             path = SimplifyPath(path);
-            for (int i = 0; i < path.Count - 1; i++)
-            {
-                Debug.DrawLine(path[i], path[i + 1], Color.blue, 100f);
-            }
+            //for (int i = 0; i < path.Count - 1; i++)
+            //{
+            //    Debug.DrawLine(path[i], path[i + 1], Color.blue, 100f);
+            //}
 
         }
 

@@ -895,7 +895,7 @@ GameObject:
   - component: {fileID: 276732514}
   - component: {fileID: 276732513}
   m_Layer: 7
-  m_Name: HomeRoof
+  m_Name: HomeWall1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -926,8 +926,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 0.9999999, z: 1.9643964}
+  m_Center: {x: -0.000000002763937, y: 0, z: -0.48219836}
 --- !u!23 &276732514
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -8693,10 +8693,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4befe84354ef474d83a31d1d6d2cd85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Movement: {fileID: 1050092037}
-  MinRippleFreq: -1.5
-  MaxRippleFreq: -3
-  rippleChangeSpeed: 0.75
+  movement: {fileID: 1050092037}
+  minRippleFreq: -1.5
+  maxRippleFreq: -3
+  changeSpeed: 1
   rippleFreq: -1.5
   cuttleID: 0
 --- !u!114 &1050092036
@@ -9258,7 +9258,7 @@ GameObject:
   - component: {fileID: 1155969206}
   - component: {fileID: 1155969205}
   m_Layer: 7
-  m_Name: HomeWall1
+  m_Name: HomeRoof
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12274,10 +12274,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4befe84354ef474d83a31d1d6d2cd85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Movement: {fileID: 1764228485}
-  MinRippleFreq: -1.5
-  MaxRippleFreq: -3
-  rippleChangeSpeed: 0.75
+  movement: {fileID: 1764228485}
+  minRippleFreq: -1.5
+  maxRippleFreq: -3
+  changeSpeed: 1
   rippleFreq: -1.5
   cuttleID: 0
 --- !u!96 &1764228489
@@ -17623,8 +17623,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 0.9999999, z: 1.4465716}
+  m_Center: {x: 0.0000000033193706, y: 0, z: 0.2232864}
 --- !u!23 &2042690795
 MeshRenderer:
   m_ObjectHideFlags: 0
