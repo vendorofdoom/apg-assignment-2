@@ -271,8 +271,6 @@ public class CuttleBrain : MonoBehaviour
 
     private Food NearestFood(float distThreshold)
     {
-        // TODO: check if food is "owned" by another cuttle
-        // TODO: check food "age", i.e. can we reach it before it disappears
 
         float minDist = Mathf.Infinity;
         Food nearestFood = null;
@@ -280,12 +278,16 @@ public class CuttleBrain : MonoBehaviour
         foreach (Food food in tank.availableFood)
         {
             if (food != null)
-            {
+            {                
                 float dist = Vector3.Distance(food.transform.position, transform.position);
-                if (dist < minDist && dist <= distThreshold)
+
+                if (!Physics.Raycast(transform.position, (food.transform.position - transform.position), distThreshold, movement.collisionAvoidanceLayerMask)) // check no obstacles "blocking view"
                 {
-                    minDist = dist;
-                    nearestFood = food;
+                    if (dist < minDist && dist <= distThreshold)
+                    {
+                        minDist = dist;
+                        nearestFood = food;
+                    }
                 }
             }
         }

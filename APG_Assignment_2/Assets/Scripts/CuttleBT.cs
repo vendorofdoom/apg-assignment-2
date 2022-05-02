@@ -18,8 +18,6 @@ public class CuttleBT : MonoBehaviour
         bt.Update();
     }
 
-
-
     private void ConstructBT()
     {
 
