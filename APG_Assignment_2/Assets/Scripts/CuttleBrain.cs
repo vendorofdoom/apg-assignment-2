@@ -272,7 +272,7 @@ public class CuttleBrain : MonoBehaviour
             movement.Hover();
             tank.availableFood.Remove(nearestFood);
             nearestFood.Consume();
-            hunger = Mathf.Clamp01(hunger - 0.5f * Time.deltaTime);
+            hunger = Mathf.Clamp01(hunger - 0.5f); // don't use time.deltatime as it's a one off action
         }
     }
 

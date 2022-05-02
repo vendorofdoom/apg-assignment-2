@@ -8694,9 +8694,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Movement: {fileID: 1050092037}
-  MinRippleFreq: 1.5
-  MaxRippleFreq: 3
-  rippleFreq: 0
+  MinRippleFreq: -1.5
+  MaxRippleFreq: -3
+  rippleChangeSpeed: 0.75
+  rippleFreq: -1.5
   cuttleID: 0
 --- !u!114 &1050092036
 MonoBehaviour:
@@ -12274,9 +12275,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Movement: {fileID: 1764228485}
-  MinRippleFreq: 1.5
-  MaxRippleFreq: 3
-  rippleFreq: 0
+  MinRippleFreq: -1.5
+  MaxRippleFreq: -3
+  rippleChangeSpeed: 0.75
+  rippleFreq: -1.5
   cuttleID: 0
 --- !u!96 &1764228489
 TrailRenderer:

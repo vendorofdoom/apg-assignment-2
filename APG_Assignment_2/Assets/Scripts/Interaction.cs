@@ -42,7 +42,7 @@ public class Interaction : MonoBehaviour
         {
             worldPos = hitInfo.point;
             //Debug.Log("Hit! " + worldPos);
-            GameObject food = Instantiate(foods[Random.Range(0, foods.Length)], new Vector3(worldPos.x, foodDropY, worldPos.z), Quaternion.identity, transform);
+            GameObject food = Instantiate(foods[Random.Range(0, foods.Length)], new Vector3(worldPos.x, foodDropY, worldPos.z), Random.rotation, transform);
             tank.availableFood.Add(food.GetComponent<Food>());
         }
 
