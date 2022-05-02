@@ -54,7 +54,6 @@ public class Movement : MonoBehaviour
     {
         Vector3 steer = -transform.forward * quickEscapeSpeed;
         rb.AddForce(steer, ForceMode.Impulse);
-        //movementState = MovementState.Hover;
     }
 
     public void Follow(Transform target, Vector3 offset)
@@ -68,11 +67,9 @@ public class Movement : MonoBehaviour
 
     public void FollowPath()
     {
-
         if (path.Count == 0)
         {
             Debug.Log("no path to follow");
-            //movementState = MovementState.Hover;
             return;
         }
 
@@ -88,7 +85,6 @@ public class Movement : MonoBehaviour
 
         pathTarget.position = normalPoint + ((pathSegEnd - pathSegStart).normalized * lookAhead);
 
-        //List<Vector3> steer = new List<Vector3>();
 
         // If we're at the end of the path make target the segment end point rather than looking ahead
         if (pathIdx == path.Count - 2)
@@ -98,10 +94,7 @@ public class Movement : MonoBehaviour
                 pathTarget.position = pathSegEnd;
             }
 
-            //steer.Add(Arrive(pathTarget));
             RotateTowards(pathTarget, 0.5f);
-            //steer.AddRange(CollisionAvoidanceSteers(10));
-            //rb.AddForce(AverageSteer(steer), ForceMode.Acceleration);
             rb.AddForce(ArriveAndAvoidCollisions(pathTarget), ForceMode.Acceleration);
 
         }
@@ -109,17 +102,11 @@ public class Movement : MonoBehaviour
         {
             if (Vector3.Distance(normalPoint, transform.position) > pathRadius || rb.velocity.magnitude < 0.1f)
             {
-                //steer.Add(Seek(pathTarget));
                 RotateTowards(pathTarget, 0f);
-                //steer.AddRange(CollisionAvoidanceSteers(10));
-                //rb.AddForce(AverageSteer(steer), ForceMode.Acceleration);
                 rb.AddForce(SeekAndAvoidCollisions(pathTarget), ForceMode.Acceleration);
 
             }
         }
-
-        // TODO: check magnitude is correct
-
     }
 
     private Vector3 AverageSteer(List<Vector3> steersToCombine)
@@ -181,35 +168,35 @@ public class Movement : MonoBehaviour
 
 
 
-    private Vector3 Seek(Transform target)
-    {
-        Vector3 desiredVelocity = (target.position - transform.position).normalized * maxSpeed;
-        Vector3 steer = Vector3.ClampMagnitude(desiredVelocity - rb.velocity, maxForce);
-        return steer;
-        //rb.AddForce(steer, ForceMode.Acceleration);
-    }
+    //private Vector3 Seek(Transform target)
+    //{
+    //    Vector3 desiredVelocity = (target.position - transform.position).normalized * maxSpeed;
+    //    Vector3 steer = Vector3.ClampMagnitude(desiredVelocity - rb.velocity, maxForce);
+    //    return steer;
+    //    //rb.AddForce(steer, ForceMode.Acceleration);
+    //}
 
-    private Vector3 Arrive(Transform target)
-    {
-        Vector3 desiredVelocity = (target.position - transform.position);
-        float distanceToTarget = desiredVelocity.magnitude;
-        desiredVelocity = desiredVelocity.normalized;
+    //private Vector3 Arrive(Transform target)
+    //{
+    //    Vector3 desiredVelocity = (target.position - transform.position);
+    //    float distanceToTarget = desiredVelocity.magnitude;
+    //    desiredVelocity = desiredVelocity.normalized;
 
-        if (distanceToTarget < stoppingDist)
-        {
-            float speed = Mathf.Lerp(0, maxSpeed, Mathf.InverseLerp(0, stoppingDist, distanceToTarget));
+    //    if (distanceToTarget < stoppingDist)
+    //    {
+    //        float speed = Mathf.Lerp(0, maxSpeed, Mathf.InverseLerp(0, stoppingDist, distanceToTarget));
 
-            desiredVelocity *= speed;
-        }
-        else
-        {
-            desiredVelocity *= maxSpeed;
-        }
+    //        desiredVelocity *= speed;
+    //    }
+    //    else
+    //    {
+    //        desiredVelocity *= maxSpeed;
+    //    }
 
-        Vector3 steer = Vector3.ClampMagnitude(desiredVelocity - rb.velocity, maxForce);
-        return steer;
-        //rb.AddForce(steer, ForceMode.Acceleration);
-    }
+    //    Vector3 steer = Vector3.ClampMagnitude(desiredVelocity - rb.velocity, maxForce);
+    //    return steer;
+    //    //rb.AddForce(steer, ForceMode.Acceleration);
+    //}
 
     private List<Vector3> CollisionAvoidanceSteers(int maxColliders)
     {
