@@ -1155,7 +1155,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 319838295}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -14.377104, y: 9.298433, z: -4.509704}
+  m_LocalPosition: {x: -19.76, y: 3.65, z: -12.56}
   m_LocalScale: {x: 1, y: 5.7697, z: 1}
   m_Children: []
   m_Father: {fileID: 2045945804}
@@ -1251,7 +1251,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 347317007}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -13.277104, y: 7.298434, z: -3.4597042}
+  m_LocalPosition: {x: -18.66, y: 1.650001, z: -11.510001}
   m_LocalScale: {x: 1, y: 5.7697, z: 1}
   m_Children: []
   m_Father: {fileID: 2045945804}
@@ -2119,101 +2119,6 @@ Transform:
   - {fileID: 1405669192}
   m_Father: {fileID: 1082470369}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &549723146
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 549723150}
-  - component: {fileID: 549723149}
-  - component: {fileID: 549723148}
-  - component: {fileID: 549723147}
-  m_Layer: 7
-  m_Name: SphereObstacle
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
-  m_IsActive: 1
---- !u!135 &549723147
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 549723146}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!23 &549723148
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 549723146}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 91a8e06cae3326040bf033cc98f4c0b6, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &549723149
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 549723146}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &549723150
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 549723146}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 7.78, y: 1.528434, z: 12.98}
-  m_LocalScale: {x: 10.675936, y: 10.675936, z: 10.675936}
-  m_Children: []
-  m_Father: {fileID: 2045945804}
-  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &567810881
 GameObject:
@@ -3345,7 +3250,7 @@ Transform:
   - {fileID: 2042690793}
   - {fileID: 1155969204}
   m_Father: {fileID: 2045945804}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: -5.599, z: 0}
 --- !u!1 &847534049
 GameObject:
@@ -3685,7 +3590,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 910362491}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -12.017104, y: 8.708433, z: -4.509704}
+  m_LocalPosition: {x: -17.400002, y: 3.0600004, z: -12.560001}
   m_LocalScale: {x: 1, y: 5.7697, z: 1}
   m_Children: []
   m_Father: {fileID: 2045945804}
@@ -3984,12 +3889,12 @@ GameObject:
   - component: {fileID: 1050092037}
   - component: {fileID: 1050092035}
   - component: {fileID: 1050092033}
-  - component: {fileID: 1050092032}
+  - component: {fileID: 1050092031}
   - component: {fileID: 1050092041}
+  - component: {fileID: 1050092032}
   - component: {fileID: 1050092040}
   - component: {fileID: 1050092034}
   - component: {fileID: 1050092039}
-  - component: {fileID: 1050092038}
   m_Layer: 0
   m_Name: Cuttlefish 1
   m_TagString: Cuttlefish
@@ -4016,11 +3921,31 @@ MonoBehaviour:
   cuttleFin: {fileID: 1050092035}
   ink: {fileID: 1050092033}
   homeLocation: {fileID: 1514291027}
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 384
+  minGroundDistToRest: 3
+  minCuttleDist: 10
+  minSeeFoodDist: 15
+  minEatFoodDist: 2
   energy: 0
   hunger: 0
   mood: 0
   moods: 000000000000000001000000
   action: 0
+--- !u!114 &1050092031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1050092029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f611891b4b4bf441bcc702d4dafffa5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  brain: {fileID: 1050092030}
 --- !u!54 &1050092032
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -8822,19 +8747,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   collisionAvoidanceBBox: {x: 1, y: 0.5, z: 1.75}
---- !u!135 &1050092038
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1050092029}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 10
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!136 &1050092039
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -9102,7 +9014,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1082470369}
-  - component: {fileID: 1082470368}
   m_Layer: 0
   m_Name: Cuttle (1)
   m_TagString: Untagged
@@ -9110,19 +9021,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1082470368
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1082470367}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f611891b4b4bf441bcc702d4dafffa5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  brain: {fileID: 1050092030}
 --- !u!4 &1082470369
 Transform:
   m_ObjectHideFlags: 0
@@ -9167,11 +9065,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1082713854}
   m_LocalRotation: {x: -0, y: -0.29012483, z: -0, w: 0.9569888}
-  m_LocalPosition: {x: -14.587104, y: 1.1884339, z: -3.529705}
+  m_LocalPosition: {x: -19.970001, y: -4.459999, z: -11.580002}
   m_LocalScale: {x: 15.889319, y: 7.2711926, z: 7.271193}
   m_Children: []
   m_Father: {fileID: 2045945804}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: -33.731, z: 0}
 --- !u!65 &1082713856
 BoxCollider:
@@ -12223,12 +12121,12 @@ GameObject:
   - component: {fileID: 1764228485}
   - component: {fileID: 1764228488}
   - component: {fileID: 1764228493}
-  - component: {fileID: 1764228484}
+  - component: {fileID: 1764228490}
   - component: {fileID: 1764228491}
+  - component: {fileID: 1764228484}
   - component: {fileID: 1764228489}
   - component: {fileID: 1764228492}
   - component: {fileID: 1764228483}
-  - component: {fileID: 1764228494}
   m_Layer: 0
   m_Name: Cuttlefish
   m_TagString: Cuttlefish
@@ -12351,6 +12249,13 @@ MonoBehaviour:
   cuttleFin: {fileID: 1764228488}
   ink: {fileID: 1764228493}
   homeLocation: {fileID: 1237586048}
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 384
+  minGroundDistToRest: 3
+  minCuttleDist: 10
+  minSeeFoodDist: 15
+  minEatFoodDist: 2
   energy: 1
   hunger: 0.5
   mood: 0
@@ -12471,6 +12376,19 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 1
+--- !u!114 &1764228490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1764228481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f611891b4b4bf441bcc702d4dafffa5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  brain: {fileID: 1764228487}
 --- !u!199 &1764228491
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -17256,19 +17174,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ink: {fileID: 1764228492}
---- !u!135 &1764228494
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1764228481}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 10
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1798922860
 GameObject:
   m_ObjectHideFlags: 0
@@ -17370,7 +17275,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1837429235}
-  - component: {fileID: 1837429236}
   m_Layer: 0
   m_Name: Cuttle
   m_TagString: Untagged
@@ -17395,19 +17299,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1837429236
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1837429234}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f611891b4b4bf441bcc702d4dafffa5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  brain: {fileID: 1764228487}
 --- !u!1 &1854884921
 GameObject:
   m_ObjectHideFlags: 0
@@ -17841,17 +17732,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83755cf22ee6ca54e9fa7823dc1ea910, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Origin: {x: -25, y: 0, z: -25}
-  NumBoxesX: 50
+  Origin: {x: -24, y: 0, z: -24}
+  NumBoxesX: 48
   NumBoxesY: 24
-  NumBoxesZ: 50
+  NumBoxesZ: 48
   BoxSize: 1
   obstacleLayerMask:
     serializedVersion: 2
     m_Bits: 128
   Obstacles:
   - {fileID: 1082713856}
-  - {fileID: 549723147}
   - {fileID: 276732513}
   - {fileID: 2042690794}
   - {fileID: 1155969205}
@@ -17877,7 +17767,6 @@ Transform:
   - {fileID: 347317008}
   - {fileID: 1310252805}
   - {fileID: 409175713}
-  - {fileID: 549723150}
   - {fileID: 1082713855}
   - {fileID: 843003246}
   m_Father: {fileID: 0}

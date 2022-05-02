@@ -14,11 +14,18 @@ public class CuttleBrain : MonoBehaviour
     public Ink ink;
     public Transform homeLocation;
 
+    public LayerMask groundLayerMask;
+    public float minGroundDistToRest;
+
+    public float minCuttleDist;
+    public float minSeeFoodDist;
+    public float minEatFoodDist;
+
     // status
     [SerializeField]
-    private float energy = 1f;
+    private float energy;
     [SerializeField]
-    private float hunger = 0f;
+    private float hunger;
     [SerializeField]
     private Mood mood;
     public Mood[] moods;
@@ -42,7 +49,8 @@ public class CuttleBrain : MonoBehaviour
         Rest,
         GoHome,
         GoToFood,
-        Eat
+        Eat,
+        MoveDown
     }
 
     private void Awake()
@@ -50,19 +58,20 @@ public class CuttleBrain : MonoBehaviour
         cuttleColour.cuttleID = cuttleID;
         cuttleFin.cuttleID = cuttleID;
         mood = moods[Random.Range(0, moods.Length)];
+        energy = Random.Range(0f, 1f);
+        hunger = Random.Range(0f, 1f);
     }
 
     private void Update()
     {
         if (timeToNextMoodChange <= 0f)
         {
-            timeToNextMoodChange = Random.Range(0.5f, 5f);
+            timeToNextMoodChange = Random.Range(5f, 10f);
             mood = moods[Random.Range(0, moods.Length)];
         }
         {
             timeToNextMoodChange -= Time.deltaTime;
         }
-        
     }
 
     // Conditions
@@ -79,6 +88,16 @@ public class CuttleBrain : MonoBehaviour
     public bool AtHome()
     {
         return (Vector3.Distance(transform.position, homeLocation.position) <= 0.5f);
+    }
+
+    public bool AwayFromHome()
+    {
+        return (Vector3.Distance(transform.position, homeLocation.position) >= 10f);
+    }
+
+    public bool Hungry()
+    {
+        return hunger >= 0.5f;
     }
 
     public bool BeenPoked()
@@ -105,7 +124,7 @@ public class CuttleBrain : MonoBehaviour
 
     public bool AnotherCuttleNearby()
     {
-        GameObject nearestCuttle = NearestCuttle(10f);
+        GameObject nearestCuttle = NearestCuttle(minCuttleDist);
         if (nearestCuttle != null)
         {
             return true;
@@ -129,7 +148,7 @@ public class CuttleBrain : MonoBehaviour
 
     public bool FoodNearby()
     {
-        Food nearestFood = NearestFood(10f);
+        Food nearestFood = NearestFood(minSeeFoodDist);
         if (nearestFood != null)
         {
             return true;
@@ -139,11 +158,20 @@ public class CuttleBrain : MonoBehaviour
 
     public bool FoodCloseEnoughToEat()
     {
-        Food nearestFood = NearestFood(2f);
+        Food nearestFood = NearestFood(minEatFoodDist);
         if (nearestFood != null)
         {
             return true;
         }
+        return false;
+    }
+
+    public bool CloseEnoughToGroundToRest()
+    {
+        if (Physics.Raycast(transform.position, Vector3.down, minGroundDistToRest, groundLayerMask, QueryTriggerInteraction.Collide)) // check no obstacles "blocking view"
+        {
+            return true;
+        } 
         return false;
     }
 
@@ -153,19 +181,33 @@ public class CuttleBrain : MonoBehaviour
         action = Action.Rest;
 
         energy = Mathf.Clamp01(energy + 0.1f * Time.deltaTime);
+        hunger = Mathf.Clamp01(hunger + 0.05f * Time.deltaTime);
+
         cuttleColour.targetCamo = 0.8f;
         cuttleColour.targetPattern = 0.1f;
         movement.Hover();
     }
 
+    public void MoveDown()
+    {
+        action = Action.MoveDown;
+
+        cuttleColour.targetCamo = 0.5f;
+        cuttleColour.targetPattern = 0.1f;
+
+        movement.GoDown();
+    }
+
     public void Wander()
     {
-        action = Action.Wander;
+        bool prevWandering = (action == Action.Wander);
+
+        action = Action.Wander; 
 
         energy = Mathf.Clamp01(energy - 0.01f * Time.deltaTime);
         hunger = Mathf.Clamp01(hunger + 0.01f * Time.deltaTime);
 
-        if (movement.AtPathDestination(1f))
+        if (movement.AtPathDestination(1f) || !prevWandering)
         {
             Vector3 randLoc = tank.Graph.Nodes.ToList()[Random.Range(0, tank.Graph.Nodes.Count)];
             movement.path = tank.Graph.GetPath(transform.position, randLoc, true);
@@ -211,7 +253,7 @@ public class CuttleBrain : MonoBehaviour
     {
         action = Action.GoToFood;
 
-        Food nearestFood = NearestFood(10f);
+        Food nearestFood = NearestFood(minSeeFoodDist);
         if (nearestFood != null)
         {
             cuttleColour.targetCamo = 0f;
@@ -224,7 +266,7 @@ public class CuttleBrain : MonoBehaviour
     {
         action = Action.Eat;
 
-        Food nearestFood = NearestFood(10f);
+        Food nearestFood = NearestFood(minEatFoodDist);
         if (nearestFood != null)
         {
             movement.Hover();
@@ -238,7 +280,7 @@ public class CuttleBrain : MonoBehaviour
     {
         action = Action.FollowCuttle;
 
-        GameObject nearestCuttle = NearestCuttle(10f);
+        GameObject nearestCuttle = NearestCuttle(minCuttleDist);
         if (nearestCuttle != null)
         {
             Debug.Log("yo");
@@ -248,6 +290,8 @@ public class CuttleBrain : MonoBehaviour
         }
     }
 
+
+    // Utility
     public GameObject NearestCuttle(float distThreshold)
     {
         float minDist = Mathf.Infinity;

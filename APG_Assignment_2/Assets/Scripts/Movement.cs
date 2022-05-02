@@ -50,6 +50,13 @@ public class Movement : MonoBehaviour
         }
     }
 
+    public void GoDown()
+    {
+        Vector3 desiredVelocity = Vector3.down * maxSpeed;
+        Vector3 steer = Vector3.ClampMagnitude(desiredVelocity - rb.velocity, maxForce);
+        rb.AddForce(steer, ForceMode.Acceleration);
+    }
+
     public void QuickEscape()
     {
         Vector3 steer = -transform.forward * quickEscapeSpeed;
@@ -125,7 +132,6 @@ public class Movement : MonoBehaviour
         return average;
 
     }
-
 
     private Vector3 SeekAndAvoidCollisions(Transform target)
     {
