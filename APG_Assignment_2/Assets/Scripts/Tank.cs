@@ -18,6 +18,9 @@ public class Tank : MonoBehaviour
     public Transform from;
     public Transform to;
 
+    public List<Food> availableFood;
+    public CuttleBrain[] cuttlesInTank;
+
     void Start()
     {
         Initialise();

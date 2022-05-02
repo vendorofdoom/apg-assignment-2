@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Cuttlefish
   - Food
+  - Tank
   layers:
   - Default
   - TransparentFX

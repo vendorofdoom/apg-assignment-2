@@ -547,6 +547,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ead77dd6c952a5e4899b3f8288aa7fb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tank: {fileID: 2045945803}
   cameraControls: {fileID: 131008215}
   foods:
   - {fileID: 8664189153500625441, guid: cbf82a5535247ec4eb03ef9d4d47e217, type: 3}
@@ -3983,7 +3984,6 @@ GameObject:
   - component: {fileID: 1050092037}
   - component: {fileID: 1050092035}
   - component: {fileID: 1050092033}
-  - component: {fileID: 1050092031}
   - component: {fileID: 1050092032}
   - component: {fileID: 1050092041}
   - component: {fileID: 1050092040}
@@ -4015,28 +4015,12 @@ MonoBehaviour:
   cuttleColour: {fileID: 1050092036}
   cuttleFin: {fileID: 1050092035}
   ink: {fileID: 1050092033}
-  perception: {fileID: 1050092031}
   homeLocation: {fileID: 1514291027}
   energy: 0
   hunger: 0
   mood: 0
-  moods: 0000000001000000
+  moods: 000000000000000001000000
   action: 0
---- !u!114 &1050092031
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1050092029}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fcc88f153ac9c6499ec55fd68403a62, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nearbyCuttles: []
-  nearbyFood: []
-  visionDist: 10
 --- !u!54 &1050092032
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -12239,7 +12223,6 @@ GameObject:
   - component: {fileID: 1764228485}
   - component: {fileID: 1764228488}
   - component: {fileID: 1764228493}
-  - component: {fileID: 1764228490}
   - component: {fileID: 1764228484}
   - component: {fileID: 1764228491}
   - component: {fileID: 1764228489}
@@ -12367,12 +12350,11 @@ MonoBehaviour:
   cuttleColour: {fileID: 1764228482}
   cuttleFin: {fileID: 1764228488}
   ink: {fileID: 1764228493}
-  perception: {fileID: 1764228490}
   homeLocation: {fileID: 1237586048}
   energy: 1
   hunger: 0.5
   mood: 0
-  moods: 0000000001000000
+  moods: 000000000100000001000000
   action: 0
 --- !u!114 &1764228488
 MonoBehaviour:
@@ -12489,21 +12471,6 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 1
---- !u!114 &1764228490
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1764228481}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fcc88f153ac9c6499ec55fd68403a62, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nearbyCuttles: []
-  nearbyFood: []
-  visionDist: 10
 --- !u!199 &1764228491
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -17857,7 +17824,7 @@ GameObject:
   - component: {fileID: 2045945803}
   m_Layer: 0
   m_Name: Tank
-  m_TagString: Untagged
+  m_TagString: Tank
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17890,6 +17857,10 @@ MonoBehaviour:
   - {fileID: 1155969205}
   from: {fileID: 1764228486}
   to: {fileID: 190838769}
+  availableFood: []
+  cuttlesInTank:
+  - {fileID: 1764228487}
+  - {fileID: 1050092030}
 --- !u!4 &2045945804
 Transform:
   m_ObjectHideFlags: 0

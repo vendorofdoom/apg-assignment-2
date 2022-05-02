@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Interaction : MonoBehaviour
 {
+    public Tank tank;
+
     public CameraControls cameraControls;
     public GameObject[] foods;
 
@@ -39,8 +41,9 @@ public class Interaction : MonoBehaviour
         if (ground.Raycast(ray, out hitInfo, raycastDist))
         {
             worldPos = hitInfo.point;
-            Debug.Log("Hit! " + worldPos);
-            Instantiate(foods[Random.Range(0, foods.Length)], new Vector3(worldPos.x, foodDropY, worldPos.z), Quaternion.identity, transform);
+            //Debug.Log("Hit! " + worldPos);
+            GameObject food = Instantiate(foods[Random.Range(0, foods.Length)], new Vector3(worldPos.x, foodDropY, worldPos.z), Quaternion.identity, transform);
+            tank.availableFood.Add(food.GetComponent<Food>());
         }
 
 

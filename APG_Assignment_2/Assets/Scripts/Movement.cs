@@ -227,12 +227,12 @@ public class Movement : MonoBehaviour
     {
         if (path.Count == 0)
         {
-            Debug.Log("path is empty");
+            //Debug.Log("path is empty");
             return true;
         }
         else if ((Vector3.Distance(transform.position, path[path.Count - 1]) < distThreshold))
         {
-            Debug.Log("you have reached your destination");
+            //Debug.Log("you have reached your destination");
             path.Clear();
             return true;
         }

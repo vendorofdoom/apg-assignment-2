@@ -12,7 +12,6 @@ public class CuttleBrain : MonoBehaviour
     public CuttleColour cuttleColour;
     public CuttleFin cuttleFin;
     public Ink ink;
-    public Perception perception;
     public Transform homeLocation;
 
     // status
@@ -20,10 +19,9 @@ public class CuttleBrain : MonoBehaviour
     private float energy = 1f;
     [SerializeField]
     private float hunger = 0f;
-
     [SerializeField]
-    public Mood mood;
-    public Mood[] moods = new Mood[4] { Mood.Playful, Mood.Neutral, Mood.Neutral, Mood.Neutral };
+    private Mood mood;
+    public Mood[] moods;
 
     private float timeToNextMoodChange;
 
@@ -92,7 +90,7 @@ public class CuttleBrain : MonoBehaviour
 
             if (gameObject.GetComponent<Collider>().Raycast(ray, out hitInfo, 100f))
             {
-                Debug.Log("Clicked!");
+                //Debug.Log("Clicked!");
                 return true;
             }
         }
@@ -107,7 +105,12 @@ public class CuttleBrain : MonoBehaviour
 
     public bool AnotherCuttleNearby()
     {
-        return (perception.nearbyCuttles.Count > 0);
+        GameObject nearestCuttle = NearestCuttle(10f);
+        if (nearestCuttle != null)
+        {
+            return true;
+        }
+        return false;
     }
 
     public bool MouseOver()
@@ -126,18 +129,20 @@ public class CuttleBrain : MonoBehaviour
 
     public bool FoodNearby()
     {
-        return (perception.nearbyFood.Count > 0);
+        Food nearestFood = NearestFood(10f);
+        if (nearestFood != null)
+        {
+            return true;
+        }
+        return false;
     }
 
     public bool FoodCloseEnoughToEat()
     {
-        Food nearestFood = perception.nearestFood(10f);
+        Food nearestFood = NearestFood(2f);
         if (nearestFood != null)
         {
-            if (Vector3.Distance(nearestFood.transform.position, transform.position) < 2f)
-            {
-                return true;
-            }
+            return true;
         }
         return false;
     }
@@ -206,7 +211,7 @@ public class CuttleBrain : MonoBehaviour
     {
         action = Action.GoToFood;
 
-        Food nearestFood = perception.nearestFood(10f);
+        Food nearestFood = NearestFood(10f);
         if (nearestFood != null)
         {
             cuttleColour.targetCamo = 0f;
@@ -219,11 +224,11 @@ public class CuttleBrain : MonoBehaviour
     {
         action = Action.Eat;
 
-        Food nearestFood = perception.nearestFood(10f);
+        Food nearestFood = NearestFood(10f);
         if (nearestFood != null)
         {
             movement.Hover();
-            perception.nearbyFood.Remove(nearestFood.gameObject.GetComponent<Collider>());
+            tank.availableFood.Remove(nearestFood);
             nearestFood.Consume();
             hunger = Mathf.Clamp01(hunger - 0.5f * Time.deltaTime);
         }
@@ -233,13 +238,59 @@ public class CuttleBrain : MonoBehaviour
     {
         action = Action.FollowCuttle;
 
-        GameObject nearestCuttle = perception.nearestCuttle(10f);
+        GameObject nearestCuttle = NearestCuttle(10f);
         if (nearestCuttle != null)
         {
+            Debug.Log("yo");
             cuttleColour.targetCamo = 0f;
             cuttleColour.targetPattern = 1f;
             movement.Follow(nearestCuttle.transform, -nearestCuttle.transform.forward * 5f);
         }
+    }
+
+    public GameObject NearestCuttle(float distThreshold)
+    {
+        float minDist = Mathf.Infinity;
+        GameObject nearestCuttle = null;
+
+        foreach (CuttleBrain cuttle in tank.cuttlesInTank)
+        {
+            if (cuttle != this)
+            {
+                float dist = Vector3.Distance(cuttle.transform.position, transform.position);
+                if (dist < minDist && dist <= distThreshold)
+                {
+                    minDist = dist;
+                    nearestCuttle = cuttle.gameObject;
+                }
+            }
+        }
+
+        return nearestCuttle;
+    }
+
+    private Food NearestFood(float distThreshold)
+    {
+        // TODO: check if food is "owned" by another cuttle
+        // TODO: check food "age", i.e. can we reach it before it disappears
+
+        float minDist = Mathf.Infinity;
+        Food nearestFood = null;
+
+        foreach (Food food in tank.availableFood)
+        {
+            if (food != null)
+            {
+                float dist = Vector3.Distance(food.transform.position, transform.position);
+                if (dist < minDist && dist <= distThreshold)
+                {
+                    minDist = dist;
+                    nearestFood = food;
+                }
+            }
+        }
+
+        return nearestFood;
     }
 
 }
