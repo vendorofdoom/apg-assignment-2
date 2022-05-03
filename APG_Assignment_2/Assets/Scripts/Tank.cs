@@ -66,64 +66,64 @@ public class Tank : MonoBehaviour
 
     }
 
-    void OnDrawGizmos()
-    {
-        
-        float boxMidOffset = BoxSize / 2;
+    //void OnDrawGizmos()
+    //{
 
-        for (int x = 0; x < NumBoxesX; x++)
-        {
-            for (int y = 0; y < NumBoxesY; y++)
-            {
-                for (int z = 0; z < NumBoxesZ; z++)
-                {
+    //    float boxMidOffset = BoxSize / 2;
+
+    //    for (int x = 0; x < NumBoxesX; x++)
+    //    {
+    //        for (int y = 0; y < NumBoxesY; y++)
+    //        {
+    //            for (int z = 0; z < NumBoxesZ; z++)
+    //            {
 
 
-                    Vector3 mid = new Vector3(Origin.x + (x * BoxSize) + boxMidOffset,
-                                                Origin.y + (y * BoxSize) + boxMidOffset,
-                                                Origin.z + (z * BoxSize) + boxMidOffset);
+    //                Vector3 mid = new Vector3(Origin.x + (x * BoxSize) + boxMidOffset,
+    //                                            Origin.y + (y * BoxSize) + boxMidOffset,
+    //                                            Origin.z + (z * BoxSize) + boxMidOffset);
 
-                    if (PointWithinObstacle(mid))
-                    {
-                        // don't draw any edges
+    //                if (PointWithinObstacle(mid))
+    //                {
+    //                    // don't draw any edges
 
-                        // draw node
-                        Gizmos.color = Color.red;
-                        Gizmos.DrawSphere(mid, 0.05f);
-                        //Gizmos.DrawWireCube(mid, new Vector3(BoxSize, BoxSize, BoxSize));
+    //                    // draw node
+    //                    Gizmos.color = Color.red;
+    //                    Gizmos.DrawSphere(mid, 0.05f);
+    //                    //Gizmos.DrawWireCube(mid, new Vector3(BoxSize, BoxSize, BoxSize));
 
-                    }
-                    else
-                    {
-                        // draw edges
+    //                }
+    //                else
+    //                {
+    //                    // draw edges
 
-                        Vector3 right = mid + new Vector3(BoxSize, 0, 0);
-                        Vector3 up =    mid + new Vector3(0, BoxSize, 0);
-                        Vector3 fwd =   mid + new Vector3(0, 0, BoxSize);
+    //                    Vector3 right = mid + new Vector3(BoxSize, 0, 0);
+    //                    Vector3 up = mid + new Vector3(0, BoxSize, 0);
+    //                    Vector3 fwd = mid + new Vector3(0, 0, BoxSize);
 
-                        Gizmos.color = Color.white;
+    //                    Gizmos.color = Color.white;
 
-                        if ((x < NumBoxesX - 1) && !PointWithinObstacle(right))
-                            Gizmos.DrawLine(mid, right);
+    //                    if ((x < NumBoxesX - 1) && !PointWithinObstacle(right))
+    //                        Gizmos.DrawLine(mid, right);
 
-                        if ((y < NumBoxesY - 1) && !PointWithinObstacle(up))
-                            Gizmos.DrawLine(mid, up);
+    //                    if ((y < NumBoxesY - 1) && !PointWithinObstacle(up))
+    //                        Gizmos.DrawLine(mid, up);
 
-                        if ((z < NumBoxesZ - 1) && !PointWithinObstacle(fwd))
-                            Gizmos.DrawLine(mid, fwd);
+    //                    if ((z < NumBoxesZ - 1) && !PointWithinObstacle(fwd))
+    //                        Gizmos.DrawLine(mid, fwd);
 
-                        // draw node
-                        //Gizmos.color = Color.green;
-                        //Gizmos.DrawSphere(mid, 0.05f);
-                        //Gizmos.DrawWireCube(mid, new Vector3(BoxSize, BoxSize, BoxSize));
-                    }
-                        
-                    
+    //                    // draw node
+    //                    //Gizmos.color = Color.green;
+    //                    //Gizmos.DrawSphere(mid, 0.05f);
+    //                    //Gizmos.DrawWireCube(mid, new Vector3(BoxSize, BoxSize, BoxSize));
+    //                }
 
-                }
-            }
-        }
-    }
+
+
+    //            }
+    //        }
+    //    }
+    //}
 
 
 

@@ -185,7 +185,7 @@ public class CuttleBrain : MonoBehaviour
     {
         action = Action.Rest;
 
-        cuttleColour.targetCamo = 0.8f;
+        cuttleColour.targetCamo = 0.9f;
         cuttleColour.targetPattern = 0.1f;
 
         movement.Hover();
@@ -233,9 +233,10 @@ public class CuttleBrain : MonoBehaviour
     
     public void GoHome()
     {
+        bool prevGoingHome = (action == Action.GoHome);
         action = Action.GoHome;
 
-        if (movement.path.Count == 0 || (movement.path[movement.path.Count - 1] != homeLocation.position))
+        if (movement.path.Count == 0 || (movement.path[movement.path.Count - 1] != homeLocation.position || !prevGoingHome))
         {
             movement.path = tank.Graph.GetPath(transform.position, homeLocation.position, true);
         }
