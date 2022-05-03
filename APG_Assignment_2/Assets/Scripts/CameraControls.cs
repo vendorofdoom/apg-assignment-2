@@ -10,7 +10,6 @@ public class CameraControls : MonoBehaviour
 
     public bool isTopDown;
 
-    // Start is called before the first frame update
     void Start()
     {
         isTopDown = false;

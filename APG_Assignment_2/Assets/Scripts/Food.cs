@@ -7,16 +7,12 @@ public class Food : MonoBehaviour
     public float age;
     public float lifetime;
 
-    private Tank tank;
-
-    //private float nutritionalValue;
     private Vector3 originalScale;
 
     private void Start()
     {
         originalScale = transform.localScale;
         age = 0f;
-        tank = GameObject.FindGameObjectWithTag("Tank").GetComponent<Tank>();
     }
 
     private void Update()

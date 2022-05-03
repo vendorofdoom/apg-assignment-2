@@ -257,6 +257,7 @@ public class CuttleBrain : MonoBehaviour
         action = Action.Ink;
 
         cuttleColour.targetCamo = 0f;
+        cuttleColour.camoLevel = 0f;
         cuttleColour.targetPattern = 1f;
 
         movement.QuickEscape();

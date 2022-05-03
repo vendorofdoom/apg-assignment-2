@@ -141,7 +141,6 @@ public class Movement : MonoBehaviour
         steer = steer.normalized * maxSpeed;
         steer = Vector3.ClampMagnitude(steer - rb.velocity, maxForce);
         return steer;
-        //rb.AddForce(steer, ForceMode.Acceleration);
     }
 
 
@@ -168,40 +167,7 @@ public class Movement : MonoBehaviour
 
         steer = Vector3.ClampMagnitude(steer - rb.velocity, maxForce);
         return steer;
-        //rb.AddForce(steer, ForceMode.Acceleration);
     }
-
-
-
-    //private Vector3 Seek(Transform target)
-    //{
-    //    Vector3 desiredVelocity = (target.position - transform.position).normalized * maxSpeed;
-    //    Vector3 steer = Vector3.ClampMagnitude(desiredVelocity - rb.velocity, maxForce);
-    //    return steer;
-    //    //rb.AddForce(steer, ForceMode.Acceleration);
-    //}
-
-    //private Vector3 Arrive(Transform target)
-    //{
-    //    Vector3 desiredVelocity = (target.position - transform.position);
-    //    float distanceToTarget = desiredVelocity.magnitude;
-    //    desiredVelocity = desiredVelocity.normalized;
-
-    //    if (distanceToTarget < stoppingDist)
-    //    {
-    //        float speed = Mathf.Lerp(0, maxSpeed, Mathf.InverseLerp(0, stoppingDist, distanceToTarget));
-
-    //        desiredVelocity *= speed;
-    //    }
-    //    else
-    //    {
-    //        desiredVelocity *= maxSpeed;
-    //    }
-
-    //    Vector3 steer = Vector3.ClampMagnitude(desiredVelocity - rb.velocity, maxForce);
-    //    return steer;
-    //    //rb.AddForce(steer, ForceMode.Acceleration);
-    //}
 
     private List<Vector3> CollisionAvoidanceSteers(int maxColliders)
     {
@@ -225,7 +191,6 @@ public class Movement : MonoBehaviour
 
         return steers;
 
-        //rb.AddForce(steer, ForceMode.Acceleration);
     }
 
     public bool AtPathDestination(float distThreshold)
