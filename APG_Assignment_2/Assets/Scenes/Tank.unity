@@ -3819,7 +3819,7 @@ MonoBehaviour:
   minGroundDistToRest: 3
   minCuttleDist: 10
   minSeeFoodDist: 15
-  minEatFoodDist: 2
+  minEatFoodDist: 3
   foodVisionMask:
     serializedVersion: 2
     m_Bits: 640
@@ -12152,7 +12152,7 @@ MonoBehaviour:
   minGroundDistToRest: 3
   minCuttleDist: 10
   minSeeFoodDist: 15
-  minEatFoodDist: 2
+  minEatFoodDist: 3
   foodVisionMask:
     serializedVersion: 2
     m_Bits: 640
